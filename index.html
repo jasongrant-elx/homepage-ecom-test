@@ -5,6 +5,9 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <title>Electrolux Mobile Home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,500;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script>
   tailwind.config = {
@@ -20,13 +23,15 @@
           }
         },
         fontFamily: {
-          sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif']
+          sans: ['"Nunito Sans"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif']
         }
       }
     }
   }
 </script>
 <style>
+  /* ── Nunito Sans — closest public match to Electrolux Sans ── */
+
   /* ── Scrollbar hide ── */
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -92,7 +97,7 @@
 </style>
 </head>
 
-<body class="bg-gray-100 flex justify-center text-brand-dark antialiased selection:bg-brand-navy selection:text-white">
+<body class="bg-gray-100 flex justify-center text-brand-dark antialiased selection:bg-brand-navy selection:text-white" style="font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;">
 
 <!-- ── Mobile Shell ─────────────────────────────────────────── -->
 <div class="w-full max-w-[430px] min-h-screen bg-white relative flex flex-col shadow-2xl overflow-hidden pb-16" id="appShell">
@@ -130,12 +135,8 @@
       </svg>
     </button>
 
-    <div class="flex items-center space-x-2">
-      <svg class="w-6 h-6 text-brand-navy fill-current" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" fill="none" r="46" stroke="currentColor" stroke-width="8"/>
-        <polygon fill="currentColor" points="50,28 72,50 50,72 28,50"/>
-      </svg>
-      <span class="font-bold text-xl tracking-tight text-brand-navy">Electrolux</span>
+    <div class="flex items-center">
+      <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/electrolux-logo-blue-rich.png" alt="Electrolux" class="h-7 w-auto object-contain" />
     </div>
 
     <div class="flex items-center space-x-4">
@@ -193,52 +194,31 @@
   </div>
 
   <!-- ── HERO SECTION ──────────────────────────────────────────── -->
-  <section class="relative bg-gradient-to-b from-[#dbe4eb] via-[#d7e1e8] to-[#e7eef2] px-6 pt-5 pb-8 overflow-hidden flex-shrink-0">
+  <section class="relative bg-[#dbe4eb] overflow-hidden flex-shrink-0">
+    <!-- Full-bleed hero image -->
+    <img
+      src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/hero-vacuum-cleaner-transparent.png"
+      alt="Electrolux Ultimate 700 stick vacuum"
+      class="absolute left-1/2 -translate-x-1/2 w-[150%] pointer-events-none select-none"
+      style="top: -12%; object-fit: contain;"
+    />
+
     <!-- Headline -->
-    <div class="relative z-10 max-w-[240px]">
+    <div class="relative z-10 px-6 pt-5">
       <h1 class="text-[34px] leading-[1.08] font-bold text-brand-navy tracking-tight">
         Power on.<br/>Weight off.
       </h1>
     </div>
 
-    <!-- Hero vacuum graphic -->
-    <div class="relative w-full h-[370px] mt-1 flex justify-end items-center">
-      <div class="absolute right-[-35px] top-[-30px] w-[340px] h-[400px] transform rotate-[-8deg] pointer-events-none select-none">
-        <div class="relative w-full h-full">
-          <!-- Main handle / engine body -->
-          <div class="absolute right-4 top-8 w-44 h-72 rounded-[44px] bg-[#3a4d65] shadow-2xl transform rotate-[25deg]"></div>
-          <!-- Ergonomic grip hole -->
-          <div class="absolute right-14 top-20 w-16 h-44 rounded-full bg-[#dbe4eb] transform rotate-[25deg]"></div>
-          <!-- Motor badge -->
-          <div class="absolute right-14 top-14 text-[9px] font-semibold text-gray-300 tracking-wider rotate-[115deg] uppercase">ULTIMATE700</div>
-          <!-- Dust container -->
-          <div class="absolute right-20 top-32 w-28 h-40 rounded-2xl bg-slate-900/40 backdrop-blur-sm border border-white/20 transform rotate-[25deg] overflow-hidden flex items-center justify-center shadow-inner">
-            <div class="w-16 h-24 bg-gradient-to-r from-[#b37750] via-[#df9b6d] to-[#8d5432] rounded-lg border border-amber-200/40 flex flex-col items-center justify-between p-1.5 shadow-md">
-              <div class="w-full border-b border-black/20 pb-0.5 text-[6px] text-amber-100 text-center tracking-tighter">MAX</div>
-              <div class="grid grid-cols-4 gap-0.5 w-full opacity-60">
-                <div class="w-1 h-1 bg-black/40 rounded-full"></div>
-                <div class="w-1 h-1 bg-black/40 rounded-full"></div>
-                <div class="w-1 h-1 bg-black/40 rounded-full"></div>
-                <div class="w-1 h-1 bg-black/40 rounded-full"></div>
-              </div>
-              <div class="w-8 h-2 bg-amber-950/60 rounded-full"></div>
-            </div>
-          </div>
-          <!-- Extension wand connector -->
-          <div class="absolute right-36 top-52 w-14 h-24 bg-[#324257] rounded-lg transform rotate-[25deg] shadow-lg border-l border-white/10"></div>
-        </div>
-      </div>
-    </div>
+    <!-- Spacer to push quick card down -->
+    <div class="h-[420px]"></div>
 
     <!-- Floating product quick card -->
-    <div class="relative z-20 -mt-6 bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-lg border border-white/80 flex items-center justify-between card-lift">
+    <div class="relative z-20 mx-5 mb-5 bg-white/60 backdrop-blur-md rounded-2xl p-4 shadow-lg border border-white/50 flex items-center justify-between card-lift">
       <div class="flex items-center space-x-3.5">
         <!-- Stick vacuum thumb -->
         <div class="w-11 h-16 flex items-center justify-center relative">
-          <div class="w-1.5 h-14 bg-gradient-to-b from-[#3a4d65] via-stone-400 to-[#1e2a38] rounded-full transform -rotate-12 relative flex justify-center">
-            <div class="absolute -top-1 w-3.5 h-5 bg-[#3a4d65] rounded-t-md"></div>
-            <div class="absolute -bottom-1 w-6 h-2 bg-[#202936] rounded"></div>
-          </div>
+          <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/vacuum-transparent-small.png" alt="Ultimate 700" class="w-full h-full object-contain" />
         </div>
         <!-- Product info -->
         <div>
@@ -269,61 +249,32 @@
 
       <!-- Laundry -->
       <div class="flex flex-col items-center flex-shrink-0 cursor-pointer snap-start tap-scale">
-        <div class="w-16 h-16 rounded-2xl bg-[#f4f6f8] cat-icon flex items-center justify-center p-2">
-          <div class="w-9 h-11 bg-[#1a222d] rounded border border-gray-400 flex flex-col items-center justify-between p-1 shadow-sm">
-            <div class="w-full flex justify-between items-center px-0.5">
-              <div class="w-2 h-1 bg-cyan-400 rounded-sm"></div>
-              <div class="w-1.5 h-1.5 rounded-full border border-gray-500"></div>
-            </div>
-            <div class="w-7 h-7 rounded-full border-2 border-gray-400 bg-gray-900 flex items-center justify-center">
-              <div class="w-4 h-4 rounded-full border border-cyan-300/60 bg-sky-950"></div>
-            </div>
-          </div>
+        <div class="w-16 h-16 rounded-2xl bg-[#f4f6f8] cat-icon overflow-hidden">
+          <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/washing-machine-nav-image.jpg" alt="Laundry" class="w-full h-full object-cover" />
         </div>
         <span class="text-xs font-semibold text-brand-dark mt-2">Laundry</span>
       </div>
 
       <!-- Kitchen -->
       <div class="flex flex-col items-center flex-shrink-0 cursor-pointer snap-start tap-scale">
-        <div class="w-16 h-16 rounded-2xl bg-[#f4f6f8] cat-icon flex items-center justify-center p-2">
-          <div class="w-9 h-11 relative flex flex-col items-center justify-end">
-            <div class="w-8 h-8 bg-stone-700 rounded-t-xl rounded-b-md relative border border-stone-600 shadow-sm">
-              <div class="absolute -right-2 top-1 w-2.5 h-6 rounded-r-md border-r-2 border-y-2 border-stone-700"></div>
-              <div class="absolute -left-1.5 top-1 w-2 h-2.5 bg-stone-700 rounded-tl"></div>
-            </div>
-            <div class="w-9 h-1 bg-stone-900 rounded-full mt-0.5"></div>
-          </div>
+        <div class="w-16 h-16 rounded-2xl bg-[#f4f6f8] cat-icon overflow-hidden">
+          <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/kitchen-nav-image.jpg" alt="Kitchen" class="w-full h-full object-cover" />
         </div>
         <span class="text-xs font-semibold text-brand-dark mt-2">Kitchen</span>
       </div>
 
       <!-- Air -->
       <div class="flex flex-col items-center flex-shrink-0 cursor-pointer snap-start tap-scale">
-        <div class="w-16 h-16 rounded-2xl bg-[#f4f6f8] cat-icon flex items-center justify-center p-2">
-          <div class="w-7 h-11 bg-slate-300 rounded-lg border border-slate-400 flex flex-col items-center justify-between py-1 shadow-sm">
-            <div class="w-4 h-1 bg-slate-500 rounded-full"></div>
-            <div class="grid grid-cols-2 gap-0.5 opacity-60">
-              <div class="w-1 h-1 bg-slate-600 rounded-full"></div>
-              <div class="w-1 h-1 bg-slate-600 rounded-full"></div>
-              <div class="w-1 h-1 bg-slate-600 rounded-full"></div>
-              <div class="w-1 h-1 bg-slate-600 rounded-full"></div>
-            </div>
-            <div class="w-5 h-2 bg-stone-700 rounded-b"></div>
-          </div>
+        <div class="w-16 h-16 rounded-2xl bg-[#f4f6f8] cat-icon overflow-hidden">
+          <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/air-nav-image.jpg" alt="Air" class="w-full h-full object-cover" />
         </div>
         <span class="text-xs font-semibold text-brand-dark mt-2">Air</span>
       </div>
 
       <!-- Floor -->
       <div class="flex flex-col items-center flex-shrink-0 cursor-pointer snap-start tap-scale">
-        <div class="w-16 h-16 rounded-2xl bg-[#f4f6f8] cat-icon flex items-center justify-center p-2">
-          <div class="w-5 h-11 flex flex-col items-center justify-between">
-            <div class="w-3.5 h-6 bg-[#2b394b] rounded-t-lg rounded-b flex items-center justify-center">
-              <div class="w-1.5 h-2.5 bg-amber-600/70 rounded-sm"></div>
-            </div>
-            <div class="w-1 h-4 bg-stone-400"></div>
-            <div class="w-4 h-1.5 bg-[#202936] rounded"></div>
-          </div>
+        <div class="w-16 h-16 rounded-2xl bg-[#f4f6f8] cat-icon overflow-hidden">
+          <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/floor-nav-image.jpg" alt="Floor" class="w-full h-full object-cover" />
         </div>
         <span class="text-xs font-semibold text-brand-dark mt-2">Floor</span>
       </div>
@@ -372,19 +323,9 @@
   <!-- ── FEATURED CARD: PURE A9 ─────────────────────────────────── -->
   <section class="px-5 pt-3 pb-2 flex-shrink-0">
     <article class="relative rounded-3xl overflow-hidden shadow-md h-96 bg-[#090e15] flex flex-col justify-between p-5 text-white card-lift cursor-pointer">
-      <!-- Louvred backdrop -->
-      <div class="absolute inset-0 bg-[#090e15] flex items-center justify-center">
-        <svg class="w-[140%] h-[140%] opacity-40 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 300 300">
-          <polygon points="150,20 280,110 230,260 70,260 20,110" stroke-width="4"/>
-          <polygon points="150,45 255,120 215,240 85,240 45,120" stroke-width="5"/>
-          <polygon points="150,70 230,130 198,220 102,220 70,130" stroke-width="6"/>
-          <polygon points="150,95 208,140 182,205 118,205 92,140" stroke-width="7"/>
-        </svg>
-        <!-- Smart hub glow -->
-        <div class="absolute w-24 h-24 rounded-full bg-emerald-900/40 backdrop-blur-md border border-emerald-500/30 flex flex-col items-center justify-center text-center shadow-lg shadow-emerald-950">
-          <span class="text-[8px] tracking-[0.25em] text-emerald-300 font-bold uppercase">SMART</span>
-          <div class="w-1.5 h-1.5 bg-emerald-400 rounded-full mt-1.5 pulse-dot"></div>
-        </div>
+      <!-- Background photo -->
+      <div class="absolute inset-0">
+        <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/pick-up-where-you-left-off.jpg" alt="Pure A9 air purifier" class="w-full h-full object-cover" />
         <div class="absolute inset-0 card-gradient-overlay"></div>
       </div>
 
@@ -416,8 +357,9 @@
 
       <!-- Left: Help me choose -->
       <article class="relative h-60 rounded-3xl overflow-hidden shadow-sm flex flex-col justify-end p-4 text-white bg-amber-950 card-lift cursor-pointer">
-        <div class="absolute inset-0" style="background: linear-gradient(180deg, rgba(80,50,30,0.4) 0%, rgba(20,10,5,0.85) 100%), radial-gradient(circle at 50% 35%, #b38867 15%, #462c19 75%);">
-          <div class="absolute inset-0 opacity-40 bg-[radial-gradient(#f7d8ba_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="absolute inset-0">
+          <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/help-me-choose.jpg" alt="Help me choose" class="w-full h-full object-cover" />
+          <div class="absolute inset-0" style="background: linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,0.75) 100%);"></div>
         </div>
         <div class="relative z-10">
           <h3 class="text-base font-bold leading-tight text-white tracking-tight">Help me choose</h3>
@@ -429,22 +371,9 @@
 
       <!-- Right: Find accessories -->
       <article class="relative h-60 rounded-3xl overflow-hidden shadow-sm flex flex-col justify-end p-4 text-white bg-neutral-900 card-lift cursor-pointer">
-        <div class="absolute inset-0 bg-stone-900 flex items-center justify-center overflow-hidden">
-          <!-- Baking tray silhouette -->
-          <div class="w-32 h-44 bg-zinc-800 rounded-lg transform -rotate-12 border border-zinc-700 p-2 flex flex-col justify-between opacity-80">
-            <div class="grid grid-cols-5 gap-1 opacity-40">
-              <div class="w-1.5 h-1.5 bg-black rounded-sm"></div>
-              <div class="w-1.5 h-1.5 bg-black rounded-sm"></div>
-              <div class="w-1.5 h-1.5 bg-black rounded-sm"></div>
-              <div class="w-1.5 h-1.5 bg-black rounded-sm"></div>
-              <div class="w-1.5 h-1.5 bg-black rounded-sm"></div>
-            </div>
-          </div>
-          <!-- Pizza circle -->
-          <div class="absolute right-[-10px] top-6 w-24 h-24 rounded-full bg-gradient-to-tr from-amber-600 via-amber-400 to-red-600 shadow-md border-2 border-stone-800 flex items-center justify-center">
-            <div class="w-2.5 h-2.5 bg-red-800 rounded-full"></div>
-          </div>
-          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+        <div class="absolute inset-0">
+          <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/find-accessories.jpg" alt="Find accessories" class="w-full h-full object-cover" />
+          <div class="absolute inset-0" style="background: linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,0.75) 100%);"></div>
         </div>
         <div class="relative z-10">
           <h3 class="text-base font-bold leading-tight text-white tracking-tight">Find accessories</h3>
@@ -460,12 +389,8 @@
   <!-- ── KITCHEN INSPIRATION CARD ──────────────────────────────── -->
   <section class="px-5 py-2 flex-shrink-0">
     <article class="relative rounded-3xl overflow-hidden shadow-sm h-64 bg-[#7a6b58] flex flex-col justify-end p-5 text-white card-lift cursor-pointer">
-      <div class="absolute inset-0" style="background: linear-gradient(180deg, rgba(30,25,20,0.2) 20%, rgba(15,12,10,0.85) 90%), radial-gradient(circle at 50% 30%, #a48f76 20%, #4a3e31 80%);">
-        <div class="absolute top-6 left-0 right-0 h-4 bg-[#635342]/70 border-b border-[#8a7661]"></div>
-        <div class="absolute top-1 left-16 w-5 h-6 bg-[#cfc3b3] rounded-t-lg opacity-80"></div>
-        <div class="absolute top-2 left-24 w-4 h-5 bg-[#8e7a63] rounded-full opacity-80"></div>
-        <div class="absolute top-0 right-20 w-6 h-7 bg-[#dfd6c9] rounded-sm opacity-80"></div>
-        <div class="absolute bottom-12 left-10 right-10 h-16 bg-[#514335] rounded-t-xl border-t border-[#806c58] shadow-inner opacity-90"></div>
+      <div class="absolute inset-0">
+        <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/our-kitchen-appliances.jpg" alt="Our kitchen appliances" class="w-full h-full object-cover" />
         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
       </div>
       <div class="relative z-10">
@@ -480,16 +405,8 @@
   <!-- ── SUPPORT COMMUNITY CARD ─────────────────────────────────── -->
   <section class="px-5 py-2 pb-4 flex-shrink-0">
     <article class="relative rounded-3xl overflow-hidden shadow-sm h-72 bg-[#5d4632] flex flex-col justify-end p-5 text-white card-lift cursor-pointer">
-      <div class="absolute inset-0" style="background: linear-gradient(180deg, rgba(20,15,10,0.25) 20%, rgba(12,9,6,0.85) 90%), radial-gradient(circle at 60% 45%, #9e7855 25%, #3a2c20 85%);">
-        <!-- Washers bg detail -->
-        <div class="absolute bottom-16 left-12 w-14 h-[72px] bg-[#1f262f] rounded border border-gray-600 flex items-center justify-center opacity-85">
-          <div class="w-8 h-8 rounded-full border-2 border-gray-400 bg-gray-900"></div>
-        </div>
-        <div class="absolute bottom-16 left-28 w-14 h-[72px] bg-[#1f262f] rounded border border-gray-600 flex items-center justify-center opacity-85">
-          <div class="w-8 h-8 rounded-full border-2 border-gray-400 bg-gray-900"></div>
-        </div>
-        <!-- Laundry basket -->
-        <div class="absolute bottom-10 right-12 w-10 h-10 rounded-b-xl bg-[#9c6a38] border-t-2 border-[#caa06d] opacity-90"></div>
+      <div class="absolute inset-0">
+        <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/we-are-here-for-you-wide.jpg" alt="We are here for you" class="w-full h-full object-cover" />
         <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
       </div>
       <div class="relative z-10">
