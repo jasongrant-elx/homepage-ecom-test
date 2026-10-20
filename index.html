@@ -1,593 +1,783 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-<title>Electrolux Mobile Home</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Electrolux Home</title>
+<meta name="description" content="Electrolux home: vacuums, air purifiers, laundry and kitchen appliances.">
+<meta name="theme-color" content="#dbe4eb">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,500;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          brand: {
-            navy: '#011e41',
-            dark: '#0e1e38',
-            muted: '#526071',
-            bgLight: '#e4ebf0',
-            cardBg: '#f4f6f8'
-          }
-        },
-        fontFamily: {
-          sans: ['"Nunito Sans"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif']
-        }
-      }
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ── Tokens ─────────────────────────────────────────────── */
+  :root {
+    --navy: #011e41;
+    --dark: #0e1e38;
+    --muted: #526071;
+    --mist: #dbe4eb;
+    --card: #f4f6f8;
+    --card-hover: #dde3ea;
+    --line: #e5e7eb;
+    --grey-400: #9ca3af;
+    --grey-700: #374151;
+    --red: #ef4444;
+    --white: #fff;
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --gutter: 20px;
+    --max: 1200px;
+    --bottom-nav-h: 60px;
+    --ease: cubic-bezier(.2,.7,.3,1);
+    /* Figtree: closest free Google Font to the proprietary Electrolux Sans */
+    font-family: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color-scheme: light;
+  }
+
+  /* ── Base ───────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--white);
+    color: var(--dark);
+    font-size: 15px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: calc(var(--bottom-nav-h) + env(safe-area-inset-bottom));
+  }
+  img { display: block; max-width: 100%; }
+  h1, h2, h3, p { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  svg { flex-shrink: 0; }
+  ::selection { background: var(--navy); color: var(--white); }
+
+  :focus { outline: none; }
+  :focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; border-radius: 8px; }
+  .on-dark :focus-visible, .on-dark:focus-visible { outline-color: var(--white); }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+  .skip-link {
+    position: absolute; left: 12px; top: -48px; z-index: 100;
+    background: var(--navy); color: var(--white); padding: 10px 16px; border-radius: 10px;
+    font-weight: 700; transition: top .15s ease;
+  }
+  .skip-link:focus { top: 12px; }
+
+  .wrap { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+
+  .icon { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .icon-sm { width: 20px; height: 20px; }
+  .icon-xs { width: 14px; height: 14px; }
+
+  /* ── Tap feedback ───────────────────────────────────────── */
+  .tap { transition: transform .14s ease, opacity .14s ease; }
+  .tap:active { transform: scale(.96); opacity: .85; }
+
+  .icon-btn {
+    position: relative; display: inline-grid; place-items: center;
+    width: 40px; height: 40px; border-radius: 12px; color: var(--dark);
+  }
+  @media (hover: hover) { .icon-btn:hover { background: rgba(1,30,65,.07); } }
+
+  .badge {
+    position: absolute; top: 2px; right: 2px;
+    min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px;
+    background: var(--red); color: var(--white);
+    font-size: 9px; font-weight: 800; line-height: 16px; text-align: center;
+  }
+
+  /* ── Header ─────────────────────────────────────────────── */
+  .site-header {
+    position: relative; z-index: 31;
+    background: var(--mist);
+    padding-top: env(safe-area-inset-top);
+  }
+  /* The search row is sticky and see-through; it overlaps the hero top so page
+     content scrolls visibly behind the frosted search pill */
+  .search-row {
+    position: sticky; top: 0; z-index: 30;
+    padding: 16px var(--gutter) 12px;
+    margin-bottom: -72px;
+  }
+  .header-row {
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; column-gap: 12px;
+    grid-template-areas: "menu logo actions";
+    padding-top: 8px; padding-bottom: 0;
+  }
+  .header-left { grid-area: menu; }
+  .logo { grid-area: logo; }
+  .header-actions { grid-area: actions; }
+  .search-row .wrap { padding: 0; }
+  .header-left { display: flex; align-items: center; gap: 8px; }
+  .logo { justify-self: center; display: flex; align-items: center; }
+  .logo img { height: 28px; width: auto; }
+  .header-actions { display: flex; align-items: center; gap: 4px; }
+
+  #heartIcon { transition: fill .15s ease, stroke .15s ease, transform .2s var(--ease); }
+  #wishlistBtn[aria-pressed="true"] #heartIcon { fill: var(--red); stroke: var(--red); transform: scale(1.08); }
+
+  /* ── Search ─────────────────────────────────────────────── */
+  .search { position: relative; }
+  .search-field { position: relative; display: flex; align-items: center; }
+  .search input {
+    width: 100%; height: 44px; border: 0; border-radius: 999px;
+    background: rgba(255,255,255,.45);
+    -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid rgba(255,255,255,.65);
+    box-shadow: 0 4px 16px rgba(1,30,65,.08);
+    padding: 0 52px 0 20px;
+    font: inherit; font-size: 16px; /* 16px stops iOS zoom-on-focus */
+    color: var(--dark);
+    transition: box-shadow .15s ease, background .15s ease;
+  }
+  .search input::placeholder { color: #6b7280; }
+  .search input:focus { outline: none; background: rgba(255,255,255,.8); box-shadow: 0 0 0 2px var(--navy); }
+  .search-submit { position: absolute; right: 6px; width: 36px; height: 36px; border-radius: 999px; display: grid; place-items: center; color: var(--navy); }
+  @media (hover: hover) { .search-submit:hover { background: rgba(1,30,65,.08); } }
+
+  .suggestions {
+    position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 50;
+    background: var(--white); border: 1px solid #f3f4f6; border-radius: var(--radius-md);
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,.1), 0 8px 10px -6px rgba(0,0,0,.1);
+    padding: 4px 0; overflow: hidden;
+    transform-origin: top center;
+    transition: opacity .18s ease, transform .18s ease, visibility .18s;
+    opacity: 0; transform: scaleY(.95); visibility: hidden; pointer-events: none;
+  }
+  .suggestions.open { opacity: 1; transform: none; visibility: visible; pointer-events: auto; }
+  .suggestions li {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 16px; font-size: 14px; cursor: pointer;
+  }
+  .suggestions li svg { color: var(--grey-400); }
+  .suggestions li:hover, .suggestions li[aria-selected="true"] { background: var(--card); }
+
+  /* ── Hero ───────────────────────────────────────────────── */
+  .hero { position: relative; padding-top: var(--search-h, 72px); background: var(--mist); overflow: hidden; transition: background-color .3s ease; }
+  .hero-inner { position: relative; }
+  .hero-media {
+    position: absolute; left: 50%; top: -122px; width: 104%; max-width: none;
+    transform: translateX(-50%); pointer-events: none; user-select: none;
+  }
+  .hero-media img { width: 100%; height: auto; object-fit: contain; transition: opacity .25s ease; }
+  .hero-media img.swapping { opacity: 0; }
+  .hero-copy { position: relative; z-index: 1; padding-top: 20px; }
+  .hero h1 {
+    font-size: 40px; line-height: 1.08; font-weight: 700;
+    letter-spacing: -.025em; color: var(--navy);
+  }
+  .hero-spacer { height: 420px; }
+
+  .quick-card {
+    position: relative; z-index: 2; margin-bottom: 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: rgba(255,255,255,.6);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,.5); border-radius: var(--radius-md);
+    padding: 8px 14px 8px 8px; box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
+  }
+  .quick-card-info { display: flex; align-items: center; gap: 8px; }
+  /* Source image is square, so a square box avoids empty space above and below it */
+  .quick-card-thumb { width: 88px; height: 88px; flex-shrink: 0; }
+  .quick-card-thumb img { width: 100%; height: 100%; object-fit: contain; }
+  .quick-card h2 { font-size: 16px; font-weight: 700; line-height: 1.2; }
+  .price { font-size: 14px; font-weight: 600; color: var(--grey-700); margin-top: 2px; }
+
+  .swatches { display: flex; align-items: center; gap: 4px; margin-top: 6px; margin-left: -6px; }
+  .swatch {
+    width: 28px; height: 28px; border-radius: 999px; display: grid; place-items: center;
+  }
+  .swatch span {
+    display: block; width: 16px; height: 16px; border-radius: 999px; background: var(--c);
+    box-shadow: 0 0 0 2px transparent, 0 0 0 4px transparent;
+    transition: box-shadow .15s ease;
+  }
+  .swatch[aria-checked="true"] span { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--navy); }
+
+  .btn-square {
+    display: grid; place-items: center; flex-shrink: 0;
+    width: 44px; height: 44px; border-radius: 12px;
+    background: var(--navy); color: var(--white);
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,.15);
+  }
+
+  /* ── Card hover lift ────────────────────────────────────── */
+  .lift { transition: transform .2s ease, box-shadow .2s ease; }
+  @media (hover: hover) {
+    .lift:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,.18); }
+  }
+  .lift:active { transform: scale(.98); }
+
+  /* ── Categories ─────────────────────────────────────────── */
+  .categories { padding: 20px 0; }
+  .cat-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter);
+    padding: 4px var(--gutter); margin: -4px 0;
+    scrollbar-width: none; -ms-overflow-style: none;
+  }
+  .cat-row::-webkit-scrollbar, .pill-row::-webkit-scrollbar { display: none; }
+  .cat { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; scroll-snap-align: start; }
+  .cat-icon {
+    width: 76px; height: 76px; border-radius: 50%; background: #f4f4f4; overflow: hidden;
+    display: grid; place-items: center;
+    transition: background .15s ease, transform .15s ease;
+  }
+  /* Source images are ~40px, so show them at native size to keep them sharp; multiply drops their white backgrounds */
+  .cat-icon img { width: 40px; height: 40px; object-fit: contain; mix-blend-mode: multiply; }
+  @media (hover: hover) { .cat:hover .cat-icon { background: var(--card-hover); transform: translateY(-2px); } }
+  .cat:active .cat-icon { transform: scale(.94); }
+  .cat-label { font-size: 13px; font-weight: 700; margin-top: 8px; }
+  .acc-glyph { display: flex; flex-direction: column; align-items: center; transform: scale(.75); }
+  .acc-glyph i { display: block; }
+  .acc-glyph i:first-child { width: 12px; height: 28px; background: #44403c; border-radius: 2px 2px 0 0; }
+  .acc-glyph i:last-child { width: 20px; height: 12px; background: #292524; border-radius: 0 0 2px 2px; border-top: 1px solid #57534e; }
+
+  /* ── Filter pills ───────────────────────────────────────── */
+  .pills { padding: 8px 0; }
+  .pill-row {
+    display: flex; gap: 8px; overflow-x: auto;
+    padding: 4px var(--gutter); margin: -4px 0;
+    scrollbar-width: none; -ms-overflow-style: none;
+  }
+  /* Selected pill: #03183F outline on white. Others: soft grey, no fill colour change */
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+    height: 40px; padding: 0 18px; border-radius: 999px;
+    border: 1.5px solid transparent;
+    background: linear-gradient(180deg, #f7f7f8 0%, #efeff1 100%); color: #03183F;
+    font-size: 15px; font-weight: 500;
+    transition: background .15s ease, border-color .15s ease, transform .14s ease;
+  }
+  .pill img { width: 20px; height: 20px; }
+  @media (hover: hover) { .pill:hover { border-color: rgba(3,24,63,.35); } }
+  .pill[aria-pressed="true"] { background: var(--white); border-color: #03183F; }
+
+  /* ── Content cards ──────────────────────────────────────── */
+  .cards { padding: 12px 0 16px; }
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .card {
+    position: relative; overflow: hidden; border-radius: var(--radius-lg);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 20px; color: var(--white); isolation: isolate;
+    box-shadow: 0 1px 2px rgba(0,0,0,.06);
+    grid-column: span 2;
+  }
+  .card-bg { position: absolute; inset: 0; z-index: -1; }
+  .card-bg img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+  @media (hover: hover) { .card:hover .card-bg img { transform: scale(1.04); } }
+  .card-bg::after { content: ""; position: absolute; inset: 0; background: var(--shade); }
+  .card h2 { font-size: 20px; font-weight: 700; line-height: 1.2; letter-spacing: -.02em; }
+  .card h3 { font-size: 16px; font-weight: 700; line-height: 1.2; letter-spacing: -.02em; }
+  .card p { font-size: 12px; color: #d1d5db; margin-top: 6px; }
+  .card-link {
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 8px;
+    font-size: 12px; font-weight: 600; color: #e5e7eb;
+  }
+  /* Stretch the link so the whole card is one target */
+  .card-link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+  .card-link:focus-visible { outline: none; }
+  .card:has(.card-link:focus-visible) { outline: 2px solid var(--navy); outline-offset: 3px; }
+  @media (hover: hover) { .card:hover .card-link span:last-child { text-decoration: underline; } }
+
+  .card--featured {
+    height: 384px; justify-content: space-between; background: #090e15;
+    --shade: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(1,10,24,.85) 90%);
+  }
+  .card--featured h2 { font-size: 24px; }
+  .card--featured .card-link { font-size: 14px; color: var(--white); margin-top: 12px; }
+  .chip {
+    display: inline-block; padding: 4px 12px; border-radius: 999px;
+    background: rgba(30,41,59,.8); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,.1);
+    font-size: 11px; font-weight: 500; color: #e2e8f0;
+  }
+  .card--half {
+    grid-column: span 1; height: 240px; padding: 16px;
+    --shade: linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,.75) 100%);
+  }
+  .card--help { background: #451a03; }
+  .card--acc { background: #171717; }
+  .card--kitchen {
+    height: 256px; background: #7a6b58;
+    --shade: linear-gradient(0deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,.2) 50%, transparent 100%);
+  }
+  .card--support {
+    height: 288px; background: #5d4632;
+    --shade: linear-gradient(0deg, rgba(0,0,0,.85) 0%, rgba(0,0,0,.3) 50%, transparent 100%);
+  }
+
+  /* ── Bottom nav (mobile) ────────────────────────────────── */
+  .bottom-nav {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    background: rgba(255,255,255,.96);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    border-top: 1px solid var(--line);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .bottom-nav ul { display: flex; justify-content: space-around; max-width: 520px; margin: 0 auto; }
+  .bottom-nav a {
+    position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px;
+    min-width: 64px; height: var(--bottom-nav-h); justify-content: center;
+    color: var(--grey-400); font-size: 10px; font-weight: 500;
+  }
+  .bottom-nav a[aria-current="page"] { color: var(--navy); font-weight: 700; }
+  .bottom-nav a[aria-current="page"] svg { fill: var(--navy); }
+  .bottom-nav .badge { top: 6px; right: 14px; }
+
+  /* ── Drawer ─────────────────────────────────────────────── */
+  .drawer { position: fixed; inset: 0; z-index: 60; visibility: hidden; transition: visibility 0s .3s; }
+  .drawer.open { visibility: visible; transition: none; }
+  .drawer-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.5); opacity: 0; transition: opacity .3s ease; }
+  .drawer.open .drawer-backdrop { opacity: 1; }
+  .drawer-panel {
+    position: absolute; top: 0; left: 0; bottom: 0; width: min(320px, 86vw);
+    background: var(--white); box-shadow: 0 25px 50px -12px rgba(0,0,0,.25);
+    display: flex; flex-direction: column;
+    transform: translateX(-100%); transition: transform .3s var(--ease);
+    padding-top: env(safe-area-inset-top);
+  }
+  .drawer.open .drawer-panel { transform: none; }
+  .drawer-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 20px 16px; border-bottom: 1px solid #f3f4f6;
+  }
+  .drawer-brand { display: flex; align-items: center; gap: 8px; color: var(--navy); font-weight: 700; font-size: 18px; }
+  .drawer-close { color: var(--grey-400); }
+  .drawer-nav { padding: 16px 20px; flex: 1; overflow-y: auto; }
+  .drawer-nav a {
+    display: flex; align-items: center; gap: 12px; padding: 10px 8px; margin: 2px -8px;
+    border-radius: 10px; font-size: 14px; font-weight: 600; transition: background .15s ease, color .15s ease;
+  }
+  @media (hover: hover) { .drawer-nav a:hover { background: var(--card); color: var(--navy); } }
+  .drawer-foot { padding: 0 20px 24px; padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
+  .warranty { background: var(--mist); border-radius: var(--radius-md); padding: 16px; }
+  .warranty strong { display: block; font-size: 12px; color: var(--navy); }
+  .warranty span { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  body.no-scroll { overflow: hidden; }
+
+  /* ── Mobile-only shell: same 430px column on every screen ── */
+  html { background: #f3f4f6; }
+  body { background: #f3f4f6; }
+  .app {
+    position: relative; width: 100%; max-width: 430px; min-height: 100vh; margin: 0 auto;
+    background: var(--white); box-shadow: 0 25px 50px -12px rgba(0,0,0,.25);
+  }
+  .bottom-nav { max-width: 430px; margin: 0 auto; }
+
+  /* ── Reduced motion ─────────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: .01ms !important; animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important; transition-delay: 0s !important;
     }
   }
-</script>
-<style>
-  /* ── Nunito Sans — closest public match to Electrolux Sans ── */
-
-  /* ── Scrollbar hide ── */
-  .no-scrollbar::-webkit-scrollbar { display: none; }
-  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-  /* ── Gradient overlay for image cards ── */
-  .card-gradient-overlay {
-    background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(1,10,24,0.85) 90%);
-  }
-
-  /* ── Tap feedback ── */
-  .tap-scale { transition: transform 0.14s ease, opacity 0.14s ease; }
-  .tap-scale:active { transform: scale(0.96); opacity: 0.85; }
-
-  /* ── Search focus ring override ── */
-  input:focus { outline: none; box-shadow: 0 0 0 2px #011e41; }
-
-  /* ── Pill active state ── */
-  .pill-active {
-    border-color: #011e41 !important;
-    background: #011e41 !important;
-    color: #fff !important;
-  }
-
-  /* ── Smooth swipe snap for category row ── */
-  .snap-x-mandatory { scroll-snap-type: x mandatory; }
-  .snap-start { scroll-snap-align: start; }
-
-  /* ── Category icon hover ── */
-  .cat-icon { transition: background 0.15s ease, transform 0.15s ease; }
-  .cat-icon:hover { background: #dde3ea; transform: translateY(-2px); }
-  .cat-icon:active { transform: scale(0.94); }
-
-  /* ── Card hover lift ── */
-  .card-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
-  .card-lift:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.18); }
-  .card-lift:active { transform: scale(0.98); }
-
-  /* ── Live clock pulse dot ── */
-  @keyframes pulseDot {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-  .pulse-dot { animation: pulseDot 1.4s ease-in-out infinite; }
-
-  /* ── Search suggestion fade-in ── */
-  #searchSuggestions {
-    transition: opacity 0.18s ease, transform 0.18s ease;
-    transform-origin: top center;
-  }
-  #searchSuggestions.hidden { opacity: 0; transform: scaleY(0.95); pointer-events: none; }
-  #searchSuggestions.visible { opacity: 1; transform: scaleY(1); }
-
-  /* ── Pill transition ── */
-  .filter-pill { transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease; }
-
-  /* ── Bottom nav active indicator ── */
-  .nav-active { color: #011e41; }
-  .nav-active svg { stroke: #011e41; }
-
-  /* ── Sticky nav shadow on scroll ── */
-  #stickyNav { transition: box-shadow 0.2s ease; }
-  #stickyNav.scrolled { box-shadow: 0 2px 16px rgba(1,30,65,0.1); }
 </style>
 </head>
+<body>
 
-<body class="bg-gray-100 flex justify-center text-brand-dark antialiased selection:bg-brand-navy selection:text-white" style="font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;">
+<a class="skip-link" href="#main">Skip to content</a>
 
-<!-- ── Mobile Shell ─────────────────────────────────────────── -->
-<div class="w-full max-w-[430px] min-h-screen bg-white relative flex flex-col shadow-2xl overflow-hidden pb-16" id="appShell">
+<div class="app">
 
-  <!-- ── iOS STATUS BAR ───────────────────────────────────────── -->
-  <header class="w-full bg-[#dbe4eb] pt-3 px-7 pb-2 flex justify-between items-center text-black font-semibold text-sm z-30 select-none flex-shrink-0">
-    <span class="tracking-tight text-[15px] font-semibold" id="statusTime">9:41</span>
-    <div class="flex items-center space-x-1.5">
-      <!-- Cellular -->
-      <svg class="w-4 h-3.5 fill-current" viewBox="0 0 17 12">
-        <rect height="4" rx="0.5" width="2.5" x="0" y="8"/>
-        <rect height="7" rx="0.5" width="2.5" x="3.5" y="5"/>
-        <rect height="9.5" rx="0.5" width="2.5" x="7" y="2.5"/>
-        <rect height="12" rx="0.5" width="2.5" x="10.5" y="0"/>
-      </svg>
-      <!-- Wifi -->
-      <svg class="w-4 h-3.5 fill-current" viewBox="0 0 24 24">
-        <path d="M12 4c4.08 0 7.82 1.5 10.7 4l-1.4 1.4C18.66 7.22 15.48 6 12 6s-6.66 1.22-9.3 3.4L1.3 8C4.18 5.5 7.92 4 12 4zm0 4.5c2.8 0 5.37 1.05 7.37 2.8l-1.42 1.42C16.32 11.28 14.24 10.5 12 10.5s-4.32.78-5.95 2.22L4.63 11.3C6.63 9.55 9.2 8.5 12 8.5zm0 4.5c1.55 0 2.97.6 4.05 1.6l-1.42 1.42A3.88 3.88 0 0 0 12 15c-1 0-1.93.38-2.63 1.02l-1.42-1.42A5.88 5.88 0 0 1 12 13zm0 4.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
-      </svg>
-      <!-- Battery -->
-      <div class="w-6 h-3 rounded-md border border-black p-0.5 flex items-center relative">
-        <div class="h-full w-full bg-black rounded-[1.5px]"></div>
-        <div class="w-0.5 h-1.5 bg-black absolute -right-1 top-[3px] rounded-r"></div>
-      </div>
-    </div>
-  </header>
-
-  <!-- ── BRAND NAV ────────────────────────────────────────────── -->
-  <nav class="bg-[#dbe4eb] px-5 py-3 flex items-center justify-between z-20 flex-shrink-0" id="stickyNav">
-    <button aria-label="Open menu" class="text-brand-dark p-1 tap-scale focus:outline-none" id="menuBtn" type="button">
-      <svg class="w-6 h-6 stroke-current stroke-2" fill="none" viewBox="0 0 24 24">
-        <line stroke-linecap="round" x1="3" x2="21" y1="6" y2="6"/>
-        <line stroke-linecap="round" x1="3" x2="21" y1="12" y2="12"/>
-        <line stroke-linecap="round" x1="3" x2="21" y1="18" y2="18"/>
-      </svg>
-    </button>
-
-    <div class="flex items-center">
-      <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/electrolux-logo-blue-rich.png" alt="Electrolux" class="h-7 w-auto object-contain" />
-    </div>
-
-    <div class="flex items-center space-x-4">
-      <button aria-label="Wishlist" class="text-brand-dark tap-scale relative" id="wishlistBtn" type="button">
-        <svg class="w-6 h-6 stroke-current stroke-2 fill-none" id="heartIcon" viewBox="0 0 24 24">
-          <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-      <button aria-label="Cart" class="text-brand-dark tap-scale relative" id="cartBtn" type="button">
-        <svg class="w-6 h-6 stroke-current stroke-2 fill-none" viewBox="0 0 24 24">
-          <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span class="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center" id="cartBadge">2</span>
+<!-- ── HEADER ──────────────────────────────────────────────── -->
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-row">
+    <div class="header-left">
+      <button class="icon-btn tap" id="menuBtn" type="button" aria-label="Open menu" aria-controls="menuDrawer" aria-expanded="false">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="18" y2="18"/></svg>
       </button>
     </div>
-  </nav>
 
-  <!-- ── SEARCH BAR ────────────────────────────────────────────── -->
-  <div class="bg-[#dbe4eb] px-5 pb-3 z-20 flex-shrink-0 relative">
-    <div class="relative flex items-center">
-      <input
-        class="w-full bg-white/70 backdrop-blur-md rounded-full py-2.5 pl-5 pr-12 text-[15px] placeholder-gray-500 text-brand-dark border-none shadow-inner"
-        id="searchInput"
-        placeholder="Ask me anything"
-        type="text"
-      />
-      <button aria-label="Submit search" class="absolute right-3.5 text-brand-navy p-1 tap-scale" type="button">
-        <svg class="w-5 h-5 stroke-current stroke-2" fill="none" viewBox="0 0 24 24">
-          <line stroke-linecap="round" x1="5" x2="19" y1="12" y2="12"/>
-          <polyline points="12 5 19 12 12 19" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+    <a class="logo" href="#" aria-label="Electrolux home">
+      <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/electrolux-logo-blue-rich.png" alt="Electrolux" width="140" height="28">
+    </a>
+
+    <div class="header-actions">
+      <button class="icon-btn tap" id="wishlistBtn" type="button" aria-label="Wishlist" aria-pressed="false">
+        <svg class="icon" id="heartIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
       </button>
-    </div>
-    <!-- Search suggestions dropdown -->
-    <div class="hidden absolute left-5 right-5 top-[calc(100%-6px)] bg-white rounded-2xl shadow-xl border border-gray-100 z-50 overflow-hidden" id="searchSuggestions">
-      <ul class="py-1">
-        <li class="px-4 py-2.5 text-sm text-brand-dark hover:bg-[#f4f6f8] cursor-pointer flex items-center gap-2.5">
-          <svg class="w-4 h-4 text-gray-400 stroke-current stroke-2 flex-shrink-0" fill="none" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          Robot vacuum cleaner
-        </li>
-        <li class="px-4 py-2.5 text-sm text-brand-dark hover:bg-[#f4f6f8] cursor-pointer flex items-center gap-2.5">
-          <svg class="w-4 h-4 text-gray-400 stroke-current stroke-2 flex-shrink-0" fill="none" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          Air purifier HEPA
-        </li>
-        <li class="px-4 py-2.5 text-sm text-brand-dark hover:bg-[#f4f6f8] cursor-pointer flex items-center gap-2.5">
-          <svg class="w-4 h-4 text-gray-400 stroke-current stroke-2 flex-shrink-0" fill="none" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          Washing machine 9kg
-        </li>
-        <li class="px-4 py-2.5 text-sm text-brand-dark hover:bg-[#f4f6f8] cursor-pointer flex items-center gap-2.5">
-          <svg class="w-4 h-4 text-gray-400 stroke-current stroke-2 flex-shrink-0" fill="none" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          Ultimate 700 accessories
-        </li>
-      </ul>
+      <a class="icon-btn tap" id="cartBtn" href="#" aria-label="Cart, 2 items">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <span class="badge" aria-hidden="true">2</span>
+      </a>
     </div>
   </div>
+</header>
 
-  <!-- ── HERO SECTION ──────────────────────────────────────────── -->
-  <section class="relative bg-[#dbe4eb] overflow-hidden flex-shrink-0">
-    <!-- Full-bleed hero image -->
-    <img
-      src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/hero-vacuum-cleaner-transparent.png"
-      alt="Electrolux Ultimate 700 stick vacuum"
-      class="absolute left-1/2 -translate-x-1/2 w-[150%] pointer-events-none select-none"
-      style="top: -12%; object-fit: contain;"
-    />
-
-    <!-- Headline -->
-    <div class="relative z-10 px-6 pt-5">
-      <h1 class="text-[34px] leading-[1.08] font-bold text-brand-navy tracking-tight">
-        Power on.<br/>Weight off.
-      </h1>
+<!-- Search stays pinned while the logo row scrolls away -->
+    <div class="search-row" id="searchRow">
+  <div class="wrap">
+        <form class="search" id="searchForm" role="search" action="#">
+          <label class="sr-only" for="searchInput">Search Electrolux</label>
+          <div class="search-field">
+            <input id="searchInput" type="search" placeholder="Ask me anything" autocomplete="off"
+              role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="searchSuggestions">
+            <button class="search-submit tap" type="submit" aria-label="Submit search">
+              <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><line x1="5" x2="19" y1="12" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+          <ul class="suggestions" id="searchSuggestions" role="listbox" aria-label="Search suggestions">
+            <li role="option" id="sugg-0" aria-selected="false"><svg class="icon icon-xs" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Robot vacuum cleaner</li>
+            <li role="option" id="sugg-1" aria-selected="false"><svg class="icon icon-xs" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Air purifier HEPA</li>
+            <li role="option" id="sugg-2" aria-selected="false"><svg class="icon icon-xs" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Washing machine 9kg</li>
+            <li role="option" id="sugg-3" aria-selected="false"><svg class="icon icon-xs" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Ultimate 700 accessories</li>
+          </ul>
+        </form>
+      </div>
     </div>
 
-    <!-- Spacer to push quick card down -->
-    <div class="h-[420px]"></div>
+<main id="main">
 
-    <!-- Floating product quick card -->
-    <div class="relative z-20 mx-5 mb-5 bg-white/60 backdrop-blur-md rounded-2xl p-4 shadow-lg border border-white/50 flex items-center justify-between card-lift">
-      <div class="flex items-center space-x-3.5">
-        <!-- Stick vacuum thumb -->
-        <div class="w-11 h-16 flex items-center justify-center relative">
-          <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/vacuum-transparent-small.png" alt="Ultimate 700" class="w-full h-full object-contain" />
-        </div>
-        <!-- Product info -->
-        <div>
-          <h2 class="text-base font-bold text-brand-dark leading-tight">Ultimate 700</h2>
-          <p class="text-sm font-semibold text-gray-700 mt-0.5">฿ 10,100</p>
-          <!-- Color swatches -->
-          <div class="flex items-center space-x-2 mt-2">
-            <div class="w-5 h-5 rounded-full p-[1.5px] border-2 border-brand-navy flex items-center justify-center">
-              <div class="w-full h-full rounded-full bg-[#3e5166]"></div>
+  <!-- ── HERO ──────────────────────────────────────────────── -->
+  <section class="hero" aria-labelledby="heroTitle">
+    <div class="wrap hero-inner">
+      <div class="hero-media">
+        <img id="heroImg" src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/hero-vacuum-cleaner-transparent.png"
+          alt="Electrolux Ultimate 700 stick vacuum" fetchpriority="high">
+      </div>
+
+      <div class="hero-copy">
+        <h1 id="heroTitle">Power on.<br>Weight off.</h1>
+      </div>
+
+      <div class="hero-spacer" aria-hidden="true"></div>
+
+      <div class="quick-card lift">
+        <div class="quick-card-info">
+          <div class="quick-card-thumb">
+            <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/vacuum-transparent-small.png" alt="" width="88" height="88">
+          </div>
+          <div>
+            <h2>Ultimate 700</h2>
+            <p class="price">฿ 10,100</p>
+            <div class="swatches" role="radiogroup" aria-label="Colour">
+              <button class="swatch" type="button" role="radio" aria-checked="true" aria-label="Blue" data-hero="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/hero-vacuum-cleaner-transparent.png" style="--c:#3e5166"><span></span></button>
+              <button class="swatch" type="button" role="radio" aria-checked="false" aria-label="Green" data-hero-bg="#D7DAD5" data-hero="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/hero-vacuum-cleaner-transparent-green.png" data-hero-alt="Electrolux Ultimate 700 stick vacuum in green" style="--c:#6a796b" tabindex="-1"><span></span></button>
+              <button class="swatch" type="button" role="radio" aria-checked="false" aria-label="Burgundy" data-hero-bg="#E0D8D8" data-hero="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/hero-vacuum-cleaner-transparent-burgundy.png" data-hero-alt="Electrolux Ultimate 700 stick vacuum in burgundy" style="--c:#8f5963" tabindex="-1"><span></span></button>
             </div>
-            <div class="w-4 h-4 rounded-full bg-[#6a796b] cursor-pointer tap-scale"></div>
-            <div class="w-4 h-4 rounded-full bg-[#8f5963] cursor-pointer tap-scale"></div>
           </div>
         </div>
-      </div>
-      <button aria-label="View Ultimate 700" class="w-11 h-11 bg-brand-navy rounded-xl flex items-center justify-center text-white shadow-md tap-scale" type="button">
-        <svg class="w-5 h-5 stroke-current stroke-2" fill="none" viewBox="0 0 24 24">
-          <line stroke-linecap="round" x1="5" x2="19" y1="12" y2="12"/>
-          <polyline points="12 5 19 12 12 19" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-    </div>
-  </section>
-
-  <!-- ── APPLIANCE CATEGORY ROW ────────────────────────────────── -->
-  <section class="py-5 bg-white flex-shrink-0">
-    <div class="flex items-start space-x-4 overflow-x-auto px-5 no-scrollbar snap-x-mandatory">
-
-      <!-- Laundry -->
-      <div class="flex flex-col items-center flex-shrink-0 cursor-pointer snap-start tap-scale">
-        <div class="w-16 h-16 rounded-2xl bg-[#f4f6f8] cat-icon overflow-hidden">
-          <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/washing-machine-nav-image.jpg" alt="Laundry" class="w-full h-full object-cover" />
-        </div>
-        <span class="text-xs font-semibold text-brand-dark mt-2">Laundry</span>
-      </div>
-
-      <!-- Kitchen -->
-      <div class="flex flex-col items-center flex-shrink-0 cursor-pointer snap-start tap-scale">
-        <div class="w-16 h-16 rounded-2xl bg-[#f4f6f8] cat-icon overflow-hidden">
-          <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/kitchen-nav-image.jpg" alt="Kitchen" class="w-full h-full object-cover" />
-        </div>
-        <span class="text-xs font-semibold text-brand-dark mt-2">Kitchen</span>
-      </div>
-
-      <!-- Air -->
-      <div class="flex flex-col items-center flex-shrink-0 cursor-pointer snap-start tap-scale">
-        <div class="w-16 h-16 rounded-2xl bg-[#f4f6f8] cat-icon overflow-hidden">
-          <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/air-nav-image.jpg" alt="Air" class="w-full h-full object-cover" />
-        </div>
-        <span class="text-xs font-semibold text-brand-dark mt-2">Air</span>
-      </div>
-
-      <!-- Floor -->
-      <div class="flex flex-col items-center flex-shrink-0 cursor-pointer snap-start tap-scale">
-        <div class="w-16 h-16 rounded-2xl bg-[#f4f6f8] cat-icon overflow-hidden">
-          <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/floor-nav-image.jpg" alt="Floor" class="w-full h-full object-cover" />
-        </div>
-        <span class="text-xs font-semibold text-brand-dark mt-2">Floor</span>
-      </div>
-
-      <!-- Accessories -->
-      <div class="flex flex-col items-center flex-shrink-0 cursor-pointer snap-start tap-scale">
-        <div class="w-16 h-16 rounded-2xl bg-[#f4f6f8] cat-icon flex items-center justify-center p-2">
-          <div class="w-6 h-11 flex flex-col items-center justify-center">
-            <div class="w-3 h-7 bg-stone-700 rounded-t-sm"></div>
-            <div class="w-5 h-3 bg-stone-800 rounded-b-sm border-t border-stone-600"></div>
-          </div>
-        </div>
-        <span class="text-xs font-semibold text-brand-dark mt-2">Accessories</span>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ── QUICK FILTER PILLS ─────────────────────────────────────── -->
-  <section class="px-5 py-2 flex-shrink-0">
-    <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar" id="pillRow">
-
-      <button class="filter-pill pill-active flex items-center space-x-1.5 px-4 py-2 rounded-full border border-brand-navy font-medium text-xs whitespace-nowrap shadow-sm tap-scale" data-pill="for-you" type="button">
-        <svg class="w-3.5 h-3.5 stroke-current stroke-2" fill="none" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span>For you</span>
-      </button>
-
-      <button class="filter-pill flex items-center space-x-1.5 px-4 py-2 rounded-full border border-gray-200 bg-white text-gray-700 font-medium text-xs whitespace-nowrap tap-scale" data-pill="deals" type="button">
-        <svg class="w-3.5 h-3.5 stroke-current stroke-2" fill="none" viewBox="0 0 24 24"><path d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span>Deals</span>
-      </button>
-
-      <button class="filter-pill flex items-center space-x-1.5 px-4 py-2 rounded-full border border-gray-200 bg-white text-gray-700 font-medium text-xs whitespace-nowrap tap-scale" data-pill="best-sellers" type="button">
-        <svg class="w-3.5 h-3.5 stroke-current stroke-2" fill="none" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span>Best sellers</span>
-      </button>
-
-      <button class="filter-pill flex items-center space-x-1.5 px-4 py-2 rounded-full border border-gray-200 bg-white text-gray-700 font-medium text-xs whitespace-nowrap tap-scale" data-pill="new" type="button">
-        <svg class="w-3.5 h-3.5 stroke-current stroke-2" fill="none" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span>New arrivals</span>
-      </button>
-
-    </div>
-  </section>
-
-  <!-- ── FEATURED CARD: PURE A9 ─────────────────────────────────── -->
-  <section class="px-5 pt-3 pb-2 flex-shrink-0">
-    <article class="relative rounded-3xl overflow-hidden shadow-md h-96 bg-[#090e15] flex flex-col justify-between p-5 text-white card-lift cursor-pointer">
-      <!-- Background photo -->
-      <div class="absolute inset-0">
-        <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/pick-up-where-you-left-off.jpg" alt="Pure A9 air purifier" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 card-gradient-overlay"></div>
-      </div>
-
-      <!-- Top badge -->
-      <div class="relative z-10">
-        <span class="inline-block px-3 py-1 rounded-full bg-slate-800/80 backdrop-blur-md text-[11px] font-medium text-slate-200 border border-white/10">
-          Recently viewed
-        </span>
-      </div>
-
-      <!-- Bottom content -->
-      <div class="relative z-10">
-        <h2 class="text-2xl font-bold leading-tight text-white tracking-tight">
-          Pick up where you left off
-        </h2>
-        <p class="text-xs text-gray-300 mt-1.5 font-normal">
-          Pure A9 — Perfect for pollen season
-        </p>
-        <a class="inline-flex items-center space-x-1.5 text-sm font-semibold text-white mt-3 hover:underline" href="#">
-          <span>→</span><span>Continue</span>
+        <a class="btn-square tap" href="#" aria-label="View Ultimate 700">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><line x1="5" x2="19" y1="12" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
       </div>
-    </article>
-  </section>
-
-  <!-- ── TWO-COLUMN GRID CARDS ──────────────────────────────────── -->
-  <section class="px-5 py-2 flex-shrink-0">
-    <div class="grid grid-cols-2 gap-3">
-
-      <!-- Left: Help me choose -->
-      <article class="relative h-60 rounded-3xl overflow-hidden shadow-sm flex flex-col justify-end p-4 text-white bg-amber-950 card-lift cursor-pointer">
-        <div class="absolute inset-0">
-          <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/help-me-choose.jpg" alt="Help me choose" class="w-full h-full object-cover" />
-          <div class="absolute inset-0" style="background: linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,0.75) 100%);"></div>
-        </div>
-        <div class="relative z-10">
-          <h3 class="text-base font-bold leading-tight text-white tracking-tight">Help me choose</h3>
-          <a class="inline-flex items-center space-x-1 text-xs font-semibold text-gray-200 mt-2 hover:underline" href="#">
-            <span>→</span><span>Buying guide</span>
-          </a>
-        </div>
-      </article>
-
-      <!-- Right: Find accessories -->
-      <article class="relative h-60 rounded-3xl overflow-hidden shadow-sm flex flex-col justify-end p-4 text-white bg-neutral-900 card-lift cursor-pointer">
-        <div class="absolute inset-0">
-          <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/find-accessories.jpg" alt="Find accessories" class="w-full h-full object-cover" />
-          <div class="absolute inset-0" style="background: linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,0.75) 100%);"></div>
-        </div>
-        <div class="relative z-10">
-          <h3 class="text-base font-bold leading-tight text-white tracking-tight">Find accessories</h3>
-          <a class="inline-flex items-center space-x-1 text-xs font-semibold text-gray-200 mt-2 hover:underline" href="#">
-            <span>→</span><span>Explore</span>
-          </a>
-        </div>
-      </article>
-
     </div>
   </section>
 
-  <!-- ── KITCHEN INSPIRATION CARD ──────────────────────────────── -->
-  <section class="px-5 py-2 flex-shrink-0">
-    <article class="relative rounded-3xl overflow-hidden shadow-sm h-64 bg-[#7a6b58] flex flex-col justify-end p-5 text-white card-lift cursor-pointer">
-      <div class="absolute inset-0">
-        <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/our-kitchen-appliances.jpg" alt="Our kitchen appliances" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-      </div>
-      <div class="relative z-10">
-        <h2 class="text-xl font-bold leading-tight text-white tracking-tight">Our kitchen appliances</h2>
-        <a class="inline-flex items-center space-x-1.5 text-xs font-semibold text-gray-200 mt-2 hover:underline" href="#">
-          <span>→</span><span>Explore</span>
-        </a>
-      </div>
-    </article>
-  </section>
-
-  <!-- ── SUPPORT COMMUNITY CARD ─────────────────────────────────── -->
-  <section class="px-5 py-2 pb-4 flex-shrink-0">
-    <article class="relative rounded-3xl overflow-hidden shadow-sm h-72 bg-[#5d4632] flex flex-col justify-end p-5 text-white card-lift cursor-pointer">
-      <div class="absolute inset-0">
-        <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/we-are-here-for-you-wide.jpg" alt="We are here for you" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
-      </div>
-      <div class="relative z-10">
-        <h2 class="text-xl font-bold leading-tight text-white tracking-tight">We are here for you</h2>
-        <a class="inline-flex items-center space-x-1.5 text-xs font-semibold text-gray-200 mt-2 hover:underline" href="#">
-          <span>→</span><span>Get support</span>
-        </a>
-      </div>
-    </article>
-  </section>
-
-  <!-- ── BOTTOM NAV BAR ─────────────────────────────────────────── -->
-  <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] bg-white border-t border-gray-200 z-40 flex-shrink-0">
-    <div class="flex items-center justify-around py-2.5 px-2">
-
-      <button class="flex flex-col items-center gap-0.5 nav-active tap-scale" type="button">
-        <svg class="w-5 h-5 stroke-[#011e41] stroke-2 fill-[#011e41]" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        <span class="text-[9px] font-bold text-[#011e41]">Home</span>
-      </button>
-
-      <button class="flex flex-col items-center gap-0.5 text-gray-400 tap-scale" type="button">
-        <svg class="w-5 h-5 stroke-current stroke-2 fill-none" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        <span class="text-[9px] font-medium">Search</span>
-      </button>
-
-      <button class="flex flex-col items-center gap-0.5 text-gray-400 tap-scale relative" id="navCartBtn" type="button">
-        <svg class="w-5 h-5 stroke-current stroke-2 fill-none" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span class="absolute top-[-4px] right-[8px] bg-red-500 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">2</span>
-        <span class="text-[9px] font-medium">Cart</span>
-      </button>
-
-      <button class="flex flex-col items-center gap-0.5 text-gray-400 tap-scale" type="button">
-        <svg class="w-5 h-5 stroke-current stroke-2 fill-none" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span class="text-[9px] font-medium">Account</span>
-      </button>
-
+  <!-- ── CATEGORIES ────────────────────────────────────────── -->
+  <nav class="categories" aria-label="Appliance categories">
+    <div class="wrap" style="padding:0">
+      <ul class="cat-row">
+        <li><a class="cat tap" href="#">
+          <span class="cat-icon"><img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/washing-machine-nav-image.jpg" alt="" loading="lazy"></span>
+          <span class="cat-label">Laundry</span>
+        </a></li>
+        <li><a class="cat tap" href="#">
+          <span class="cat-icon"><img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/kitchen-nav-image.jpg" alt="" loading="lazy"></span>
+          <span class="cat-label">Kitchen</span>
+        </a></li>
+        <li><a class="cat tap" href="#">
+          <span class="cat-icon"><img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/air-nav-image.jpg" alt="" loading="lazy"></span>
+          <span class="cat-label">Air</span>
+        </a></li>
+        <li><a class="cat tap" href="#">
+          <span class="cat-icon"><img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/floor-nav-image.jpg" alt="" loading="lazy"></span>
+          <span class="cat-label">Floor</span>
+        </a></li>
+        <li><a class="cat tap" href="#">
+          <span class="cat-icon"><span class="acc-glyph" aria-hidden="true"><i></i><i></i></span></span>
+          <span class="cat-label">Accessories</span>
+        </a></li>
+      </ul>
     </div>
   </nav>
 
-</div><!-- /app shell -->
-
-<!-- ── SLIDE-IN MENU DRAWER ──────────────────────────────────────── -->
-<div class="fixed inset-0 z-50 pointer-events-none" id="menuOverlay">
-  <!-- Backdrop -->
-  <div class="absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-300" id="menuBackdrop"></div>
-  <!-- Drawer -->
-  <div class="absolute top-0 left-0 h-full w-[280px] bg-white shadow-2xl transform -translate-x-full transition-transform duration-300" id="menuDrawer">
-    <div class="flex items-center justify-between px-5 pt-12 pb-4 border-b border-gray-100">
-      <div class="flex items-center space-x-2">
-        <svg class="w-6 h-6 text-brand-navy fill-current" viewBox="0 0 100 100"><circle cx="50" cy="50" fill="none" r="46" stroke="currentColor" stroke-width="8"/><polygon fill="currentColor" points="50,28 72,50 50,72 28,50"/></svg>
-        <span class="font-bold text-lg text-brand-navy">Electrolux</span>
+  <!-- ── FILTER PILLS ──────────────────────────────────────── -->
+  <section class="pills" aria-label="Filter">
+    <div class="wrap" style="padding:0">
+      <div class="pill-row" id="pillRow">
+        <button class="pill tap" type="button" data-pill="for-you" aria-pressed="true">
+          <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/for-you-icon.png" alt="" width="20" height="20">
+          <span>For you</span>
+        </button>
+        <button class="pill tap" type="button" data-pill="deals" aria-pressed="false">
+          <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/deals-icon.png" alt="" width="20" height="20">
+          <span>Deals</span>
+        </button>
+        <button class="pill tap" type="button" data-pill="best-sellers" aria-pressed="false">
+          <img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/deals-icon.png" alt="" width="20" height="20">
+          <span>Best sellers</span>
+        </button>
       </div>
-      <button class="text-gray-400 tap-scale" id="closeMenu" type="button">
-        <svg class="w-6 h-6 stroke-current stroke-2" fill="none" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </section>
+
+  <!-- ── CONTENT CARDS ─────────────────────────────────────── -->
+  <section class="cards" aria-label="Featured">
+    <div class="wrap card-grid">
+
+      <article class="card card--featured lift on-dark">
+        <div class="card-bg"><img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/pick-up-where-you-left-off.jpg" alt="Pure A9 air purifier" loading="lazy"></div>
+        <div><span class="chip">Recently viewed</span></div>
+        <div>
+          <h2>Pick up where you left off</h2>
+          <p>Pure A9 — Perfect for pollen season</p>
+          <a class="card-link" href="#"><span aria-hidden="true">→</span><span>Continue</span></a>
+        </div>
+      </article>
+
+      <article class="card card--half card--help lift on-dark">
+        <div class="card-bg"><img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/help-me-choose.jpg" alt="" loading="lazy"></div>
+        <h3>Help me choose</h3>
+        <a class="card-link" href="#"><span aria-hidden="true">→</span><span>Buying guide</span></a>
+      </article>
+
+      <article class="card card--half card--acc lift on-dark">
+        <div class="card-bg"><img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/find-accessories.jpg" alt="" loading="lazy"></div>
+        <h3>Find accessories</h3>
+        <a class="card-link" href="#"><span aria-hidden="true">→</span><span>Explore</span></a>
+      </article>
+
+      <article class="card card--kitchen lift on-dark">
+        <div class="card-bg"><img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/our-kitchen-appliances.jpg" alt="" loading="lazy"></div>
+        <h2>Our kitchen appliances</h2>
+        <a class="card-link" href="#"><span aria-hidden="true">→</span><span>Explore</span></a>
+      </article>
+
+      <article class="card card--support lift on-dark">
+        <div class="card-bg"><img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/we-are-here-for-you-wide.jpg" alt="" loading="lazy"></div>
+        <h2>We are here for you</h2>
+        <a class="card-link" href="#"><span aria-hidden="true">→</span><span>Get support</span></a>
+      </article>
+
+    </div>
+  </section>
+</main>
+
+<!-- ── BOTTOM NAV (mobile only) ──────────────────────────────── -->
+<nav class="bottom-nav" aria-label="Primary">
+  <ul>
+    <li><a class="tap" href="#" aria-current="page">
+      <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span>Home</span>
+    </a></li>
+    <li><a class="tap" href="#" id="navSearch">
+      <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <span>Search</span>
+    </a></li>
+    <li><a class="tap" href="#" aria-label="Cart, 2 items">
+      <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+      <span class="badge" aria-hidden="true">2</span>
+      <span aria-hidden="true">Cart</span>
+    </a></li>
+    <li><a class="tap" href="#">
+      <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+      <span>Account</span>
+    </a></li>
+  </ul>
+</nav>
+
+</div><!-- /app -->
+
+<!-- ── MENU DRAWER ───────────────────────────────────────────── -->
+<div class="drawer" id="menuDrawer" aria-hidden="true">
+  <div class="drawer-backdrop" data-close></div>
+  <div class="drawer-panel" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="drawer-head">
+      <div class="drawer-brand">
+        <svg width="24" height="24" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" fill="none" r="46" stroke="currentColor" stroke-width="8"/><polygon fill="currentColor" points="50,28 72,50 50,72 28,50"/></svg>
+        <span>Electrolux</span>
+      </div>
+      <button class="icon-btn drawer-close tap" type="button" aria-label="Close menu" data-close>
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
     </div>
-    <nav class="px-5 py-4 space-y-1">
-      <a class="flex items-center gap-3 py-2.5 text-sm font-semibold text-brand-dark hover:text-brand-navy transition-colors" href="#">
-        <svg class="w-5 h-5 stroke-current stroke-2 fill-none" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Home
-      </a>
-      <a class="flex items-center gap-3 py-2.5 text-sm font-semibold text-brand-dark hover:text-brand-navy transition-colors" href="#">
-        <svg class="w-5 h-5 stroke-current stroke-2 fill-none" viewBox="0 0 24 24"><path d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Deals &amp; Promotions
-      </a>
-      <a class="flex items-center gap-3 py-2.5 text-sm font-semibold text-brand-dark hover:text-brand-navy transition-colors" href="#">
-        <svg class="w-5 h-5 stroke-current stroke-2 fill-none" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Best Sellers
-      </a>
-      <a class="flex items-center gap-3 py-2.5 text-sm font-semibold text-brand-dark hover:text-brand-navy transition-colors" href="#">
-        <svg class="w-5 h-5 stroke-current stroke-2 fill-none" viewBox="0 0 24 24"><path d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Support
-      </a>
-      <a class="flex items-center gap-3 py-2.5 text-sm font-semibold text-brand-dark hover:text-brand-navy transition-colors" href="#">
-        <svg class="w-5 h-5 stroke-current stroke-2 fill-none" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        My Account
-      </a>
+    <nav class="drawer-nav" aria-label="Menu">
+      <a href="#"><svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>Home</a>
+      <a href="#"><svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>Deals &amp; Promotions</a>
+      <a href="#"><svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Best Sellers</a>
+      <a href="#"><svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Support</a>
+      <a href="#"><svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>My Account</a>
     </nav>
-    <div class="absolute bottom-6 left-5 right-5">
-      <div class="bg-[#dbe4eb] rounded-2xl p-4">
-        <p class="text-xs font-bold text-brand-navy">2-year warranty included</p>
-        <p class="text-[11px] text-brand-muted mt-0.5">On all Electrolux appliances</p>
+    <div class="drawer-foot">
+      <div class="warranty">
+        <strong>2-year warranty included</strong>
+        <span>On all Electrolux appliances</span>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ── SCRIPTS ───────────────────────────────────────────────────── -->
 <script>
-  // ── Live status bar clock ──────────────────────────────────────
-  function updateClock() {
-    const now = new Date();
-    const h = String(now.getHours()).padStart(2, '0');
-    const m = String(now.getMinutes()).padStart(2, '0');
-    const el = document.getElementById('statusTime');
-    if (el) el.textContent = h + ':' + m;
+(function () {
+  'use strict';
+
+  // ── Menu drawer ─────────────────────────────────────────
+  var menuBtn = document.getElementById('menuBtn');
+  var drawer = document.getElementById('menuDrawer');
+  var panel = drawer.querySelector('.drawer-panel');
+  var lastFocus = null;
+
+  function focusables() {
+    return panel.querySelectorAll('a[href], button:not([disabled])');
   }
-  updateClock();
-  setInterval(updateClock, 5000);
-
-  // ── Hamburger menu drawer ──────────────────────────────────────
-  const menuBtn = document.getElementById('menuBtn');
-  const closeMenu = document.getElementById('closeMenu');
-  const menuOverlay = document.getElementById('menuOverlay');
-  const menuBackdrop = document.getElementById('menuBackdrop');
-  const menuDrawer = document.getElementById('menuDrawer');
-
   function openMenu() {
-    menuOverlay.classList.remove('pointer-events-none');
-    menuBackdrop.classList.remove('opacity-0');
-    menuBackdrop.classList.add('opacity-100');
-    menuDrawer.classList.remove('-translate-x-full');
+    lastFocus = document.activeElement;
+    drawer.classList.add('open');
+    drawer.setAttribute('aria-hidden', 'false');
+    menuBtn.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('no-scroll');
+    var first = focusables()[0];
+    if (first) setTimeout(function () { first.focus(); }, 50);
   }
-  function closeMenuFn() {
-    menuBackdrop.classList.remove('opacity-100');
-    menuBackdrop.classList.add('opacity-0');
-    menuDrawer.classList.add('-translate-x-full');
-    setTimeout(() => menuOverlay.classList.add('pointer-events-none'), 300);
+  function closeMenu() {
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden', 'true');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('no-scroll');
+    if (lastFocus) lastFocus.focus();
   }
-
   menuBtn.addEventListener('click', openMenu);
-  closeMenu.addEventListener('click', closeMenuFn);
-  menuBackdrop.addEventListener('click', closeMenuFn);
+  drawer.addEventListener('click', function (e) {
+    if (e.target.closest('[data-close]')) closeMenu();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (!drawer.classList.contains('open')) return;
+    if (e.key === 'Escape') { closeMenu(); return; }
+    if (e.key === 'Tab') {
+      var f = focusables(), first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
 
-  // ── Filter pills ───────────────────────────────────────────────
-  document.getElementById('pillRow').addEventListener('click', function(e) {
-    const pill = e.target.closest('.filter-pill');
+  // ── Filter pills ────────────────────────────────────────
+  document.getElementById('pillRow').addEventListener('click', function (e) {
+    var pill = e.target.closest('.pill');
     if (!pill) return;
-    document.querySelectorAll('.filter-pill').forEach(p => {
-      p.classList.remove('pill-active');
-      p.classList.add('bg-white', 'text-gray-700', 'border-gray-200');
-      p.classList.remove('bg-brand-navy', 'text-white', 'border-brand-navy');
+    this.querySelectorAll('.pill').forEach(function (p) {
+      p.setAttribute('aria-pressed', p === pill ? 'true' : 'false');
     });
-    pill.classList.add('pill-active');
-    pill.classList.remove('bg-white', 'text-gray-700', 'border-gray-200');
+    pill.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
   });
 
-  // ── Wishlist heart toggle ──────────────────────────────────────
-  document.getElementById('wishlistBtn').addEventListener('click', function() {
-    const icon = document.getElementById('heartIcon');
-    const isFilled = icon.classList.contains('fill-red-500');
-    if (isFilled) {
-      icon.classList.remove('fill-red-500', 'stroke-red-500');
-      icon.classList.add('fill-none');
-    } else {
-      icon.classList.add('fill-red-500', 'stroke-red-500');
-      icon.classList.remove('fill-none');
-    }
-  });
-
-  // ── Search suggestions ─────────────────────────────────────────
-  const searchInput = document.getElementById('searchInput');
-  const suggestions = document.getElementById('searchSuggestions');
-
-  searchInput.addEventListener('focus', () => {
-    suggestions.classList.remove('hidden');
-  });
-  searchInput.addEventListener('blur', () => {
-    setTimeout(() => suggestions.classList.add('hidden'), 160);
-  });
-  suggestions.querySelectorAll('li').forEach(li => {
-    li.addEventListener('mousedown', (e) => {
-      e.preventDefault();
-      searchInput.value = li.textContent.trim();
-      suggestions.classList.add('hidden');
+  // ── Colour swatches ─────────────────────────────────────
+  var swatchGroup = document.querySelector('.swatches');
+  var swatches = Array.prototype.slice.call(swatchGroup.querySelectorAll('.swatch'));
+  function selectSwatch(s) {
+    swatches.forEach(function (x) {
+      var on = x === s;
+      x.setAttribute('aria-checked', on ? 'true' : 'false');
+      x.tabIndex = on ? 0 : -1;
     });
+    swapHero(s);
+    s.focus();
+  }
+  // Each swatch can carry its own hero image (data-hero); swatches without one keep the default
+  var heroImg = document.getElementById('heroImg');
+  var heroDefault = { src: heroImg.getAttribute('src'), alt: heroImg.alt };
+  swatches.forEach(function (x) { if (x.dataset.hero) new Image().src = x.dataset.hero; });
+  var heroSection = heroImg.closest('.hero');
+  function swapHero(s) {
+    var src = s.dataset.hero || heroDefault.src;
+    var alt = s.dataset.heroAlt || heroDefault.alt;
+    // Swatches without data-hero-bg fall back to the default --mist from CSS
+    heroSection.style.backgroundColor = s.dataset.heroBg || '';
+    if (heroImg.getAttribute('src') === src) return;
+    heroImg.classList.add('swapping');
+    setTimeout(function () {
+      heroImg.onload = function () { heroImg.classList.remove('swapping'); };
+      heroImg.src = src;
+      heroImg.alt = alt;
+    }, 200);
+  }
+  swatchGroup.addEventListener('click', function (e) {
+    var s = e.target.closest('.swatch');
+    if (s) selectSwatch(s);
+  });
+  swatchGroup.addEventListener('keydown', function (e) {
+    var i = swatches.indexOf(document.activeElement);
+    if (i < 0) return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); selectSwatch(swatches[(i + 1) % swatches.length]); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); selectSwatch(swatches[(i - 1 + swatches.length) % swatches.length]); }
   });
 
-  // ── Sticky nav shadow on scroll ────────────────────────────────
-  const appShell = document.getElementById('appShell');
-  const stickyNav = document.getElementById('stickyNav');
-  appShell.addEventListener('scroll', () => {
-    if (appShell.scrollTop > 10) {
-      stickyNav.classList.add('scrolled');
-    } else {
-      stickyNav.classList.remove('scrolled');
-    }
+  // ── Wishlist toggle ─────────────────────────────────────
+  var wishBtn = document.getElementById('wishlistBtn');
+  wishBtn.addEventListener('click', function () {
+    var on = wishBtn.getAttribute('aria-pressed') !== 'true';
+    wishBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
   });
+
+  // ── Search suggestions ──────────────────────────────────
+  var form = document.getElementById('searchForm');
+  var input = document.getElementById('searchInput');
+  var list = document.getElementById('searchSuggestions');
+  var items = Array.prototype.slice.call(list.querySelectorAll('li'));
+  var active = -1;
+
+  function setActive(i) {
+    active = i;
+    items.forEach(function (li, n) { li.setAttribute('aria-selected', n === i ? 'true' : 'false'); });
+    if (i >= 0) input.setAttribute('aria-activedescendant', items[i].id);
+    else input.removeAttribute('aria-activedescendant');
+  }
+  function showSuggestions() {
+    list.classList.add('open');
+    input.setAttribute('aria-expanded', 'true');
+  }
+  function hideSuggestions() {
+    list.classList.remove('open');
+    input.setAttribute('aria-expanded', 'false');
+    setActive(-1);
+  }
+  function choose(li) {
+    input.value = li.textContent.trim();
+    hideSuggestions();
+  }
+
+  input.addEventListener('focus', showSuggestions);
+  input.addEventListener('blur', function () { setTimeout(hideSuggestions, 120); });
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowDown') { e.preventDefault(); showSuggestions(); setActive((active + 1) % items.length); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); showSuggestions(); setActive(active <= 0 ? items.length - 1 : active - 1); }
+    else if (e.key === 'Enter' && active >= 0) { e.preventDefault(); choose(items[active]); }
+    else if (e.key === 'Escape') { hideSuggestions(); }
+  });
+  items.forEach(function (li) {
+    // mousedown keeps focus in the input so blur doesn't race the click
+    li.addEventListener('mousedown', function (e) { e.preventDefault(); choose(li); });
+  });
+  form.addEventListener('submit', function (e) { e.preventDefault(); hideSuggestions(); });
+
+  // Bottom-nav "Search" jumps to the search field
+  document.getElementById('navSearch').addEventListener('click', function (e) {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    input.focus({ preventScroll: true });
+  });
+
+  // ── Header shadow on scroll ─────────────────────────────
+  var header = document.getElementById('siteHeader');
+  var ticking = false;
+  function onScroll() {
+    header.classList.toggle('scrolled', window.scrollY > 10);
+    ticking = false;
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { requestAnimationFrame(onScroll); ticking = true; }
+  }, { passive: true });
+  onScroll();
+})();
 </script>
-
 </body>
 </html>
-
-</body></html>
