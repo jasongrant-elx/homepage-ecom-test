@@ -95,7 +95,8 @@
   /* ── Header ─────────────────────────────────────────────── */
   .site-header {
     position: relative; z-index: 31;
-    background: var(--mist);
+    /* Shares the hero's colour so the menu reads as part of the hero when a swatch changes it */
+    background: var(--hero-bg, var(--mist)); transition: background-color .3s ease;
     padding-top: env(safe-area-inset-top);
   }
   /* The search row is sticky and see-through; it overlaps the hero top so page
@@ -159,7 +160,7 @@
   .suggestions li:hover, .suggestions li[aria-selected="true"] { background: var(--card); }
 
   /* ── Hero ───────────────────────────────────────────────── */
-  .hero { position: relative; padding-top: var(--search-h, 72px); background: var(--mist); overflow: hidden; transition: background-color .3s ease; }
+  .hero { position: relative; padding-top: var(--search-h, 72px); background: var(--hero-bg, var(--mist)); overflow: hidden; transition: background-color .3s ease; }
   .hero-inner { position: relative; }
   .hero-media {
     position: absolute; left: 50%; top: -122px; width: 104%; max-width: none;
@@ -336,9 +337,9 @@
   .ptile h3 a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
   .card--notify {
     grid-column: span 1; height: 174px; justify-content: space-between;
-    background: linear-gradient(160deg, #1d3a73 0%, #011e41 100%);
+    background: #0A2354;
   }
-  .notify-bell { width: 30px; height: 30px; stroke: #fff; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .notify-bell { width: 48px; height: 48px; stroke: #fff; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
   .card--notify h2 { font-size: 18px; }
   #panel-deals, .panel-tinted { background: var(--card); }
 
@@ -631,6 +632,12 @@
         <h3><a href="#">700 GlassCare<br>Built-in dishwasher</a></h3>
       </article>
 
+
+      <article class="card card--support lift on-dark">
+        <div class="card-bg"><img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/we-are-here-for-you-wide.jpg" alt="" loading="lazy"></div>
+        <h2>We are here for you</h2>
+        <a class="card-link" href="#"><span aria-hidden="true">→</span><span>Get support</span></a>
+      </article>
     </div>
   </section>
 
@@ -668,6 +675,19 @@
         <h3><a href="#">700 Cordless<br>cleaner</a></h3>
       </article>
 
+
+      <article class="card card--kitchen lift on-dark">
+        <div class="card-bg"><img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/pick-up-where-you-left-off.jpg" alt="" loading="lazy"></div>
+        <h2>Spring campaign</h2>
+        <p>Good deals on our essentials</p>
+        <a class="card-link" href="#"><span aria-hidden="true">→</span><span>Explore More</span></a>
+      </article>
+
+      <article class="card card--support lift on-dark">
+        <div class="card-bg"><img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/we-are-here-for-you-wide.jpg" alt="" loading="lazy"></div>
+        <h2>We are here for you</h2>
+        <a class="card-link" href="#"><span aria-hidden="true">→</span><span>Get support</span></a>
+      </article>
     </div>
   </section>
 </main>
@@ -805,7 +825,8 @@
     var src = s.dataset.hero || heroDefault.src;
     var alt = s.dataset.heroAlt || heroDefault.alt;
     // Swatches without data-hero-bg fall back to the default --mist from CSS
-    heroSection.style.backgroundColor = s.dataset.heroBg || '';
+    document.querySelector('.app').style.setProperty('--hero-bg', s.dataset.heroBg || '');
+    if (!s.dataset.heroBg) document.querySelector('.app').style.removeProperty('--hero-bg');
     if (heroImg.getAttribute('src') === src) return;
     heroImg.classList.add('swapping');
     setTimeout(function () {
