@@ -96,7 +96,7 @@
   .site-header {
     position: relative; z-index: 31;
     /* Shares the hero's colour so the menu reads as part of the hero when a swatch changes it */
-    background: var(--hero-bg, var(--mist)); transition: background-color .3s ease;
+    background: var(--hero-bg, var(--mist)); transition: background-color .8s cubic-bezier(.4,0,.2,1);
     padding-top: env(safe-area-inset-top);
   }
   /* The search row is sticky and see-through; it overlaps the hero top so page
@@ -160,14 +160,19 @@
   .suggestions li:hover, .suggestions li[aria-selected="true"] { background: var(--card); }
 
   /* ── Hero ───────────────────────────────────────────────── */
-  .hero { position: relative; padding-top: var(--search-h, 72px); background: var(--hero-bg, var(--mist)); overflow: hidden; transition: background-color .3s ease; }
+  .hero { position: relative; padding-top: var(--search-h, 72px); background: var(--hero-bg, var(--mist)); overflow: hidden; transition: background-color .8s cubic-bezier(.4,0,.2,1); }
   .hero-inner { position: relative; }
   .hero-media {
     position: absolute; left: 50%; top: -122px; width: 104%; max-width: none;
     transform: translateX(-50%); pointer-events: none; user-select: none;
   }
-  .hero-media img { width: 100%; height: auto; object-fit: contain; transition: opacity .25s ease; }
-  .hero-media img.swapping { opacity: 0; }
+  .hero-media img { width: 100%; height: auto; object-fit: contain; }
+  /* Incoming colour is layered over the current one and dissolves in slowly;
+     the current image stays fully visible underneath so there is no dip in the middle */
+  .hero-media img.hero-next {
+    position: absolute; inset: 0; opacity: 0; transform: scale(.992);
+    transition: opacity .8s cubic-bezier(.4,0,.2,1), transform .8s cubic-bezier(.4,0,.2,1);
+  }
   .hero-copy { position: relative; z-index: 1; padding-top: 20px; }
   .hero h1 {
     font-size: 40px; line-height: 1.08; font-weight: 700;
@@ -495,7 +500,7 @@
             <div class="swatches" role="radiogroup" aria-label="Colour">
               <button class="swatch" type="button" role="radio" aria-checked="true" aria-label="Blue" data-hero="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/hero-vacuum-cleaner-transparent.png" style="--c:#3e5166"><span></span></button>
               <button class="swatch" type="button" role="radio" aria-checked="false" aria-label="Green" data-hero-bg="#D7DAD5" data-hero="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/hero-vacuum-cleaner-transparent-green.png" data-hero-alt="Electrolux Ultimate 700 stick vacuum in green" style="--c:#6a796b" tabindex="-1"><span></span></button>
-              <button class="swatch" type="button" role="radio" aria-checked="false" aria-label="Burgundy" data-hero-bg="#E0D8D8" data-hero="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/hero-vacuum-cleaner-transparent-burgundy.png" data-hero-alt="Electrolux Ultimate 700 stick vacuum in burgundy" style="--c:#8f5963" tabindex="-1"><span></span></button>
+              <button class="swatch" type="button" role="radio" aria-checked="false" aria-label="Burgundy" data-hero-bg="#E0D8D8" data-hero="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/hero-vacuum-cleaner-transparent-red.png" data-hero-alt="Electrolux Ultimate 700 stick vacuum in burgundy" style="--c:#8f5963" tabindex="-1"><span></span></button>
             </div>
           </div>
         </div>
@@ -831,12 +836,32 @@
     document.querySelector('.app').style.setProperty('--hero-bg', s.dataset.heroBg || '');
     if (!s.dataset.heroBg) document.querySelector('.app').style.removeProperty('--hero-bg');
     if (heroImg.getAttribute('src') === src) return;
-    heroImg.classList.add('swapping');
-    setTimeout(function () {
-      heroImg.onload = function () { heroImg.classList.remove('swapping'); };
-      heroImg.src = src;
-      heroImg.alt = alt;
-    }, 200);
+    // Crossfade: fade the new image in on top while the current one fades out,
+    // so the hero is never empty mid-switch
+    var prev = heroImg.parentNode.querySelector('.hero-next');
+    if (prev) prev.remove();
+    var next = new Image();
+    next.className = 'hero-next';
+    next.alt = '';
+    next.src = src;
+    heroImg.parentNode.appendChild(next);
+    var ready = next.decode ? next.decode() : Promise.resolve();
+    ready.catch(function () {}).then(function () {
+      if (!next.isConnected) return;
+      requestAnimationFrame(function () {
+        next.style.opacity = '1';
+        next.style.transform = 'none';
+      });
+      setTimeout(function () {
+        if (!next.isConnected) return;
+        heroImg.src = src;
+        heroImg.alt = alt;
+        var settle = heroImg.decode ? heroImg.decode() : Promise.resolve();
+        settle.catch(function () {}).then(function () {
+          next.remove();
+        });
+      }, 820);
+    });
   }
   swatchGroup.addEventListener('click', function (e) {
     var s = e.target.closest('.swatch');
