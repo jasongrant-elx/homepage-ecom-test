@@ -243,6 +243,12 @@ svg { display: block; }
   padding: 0 calc(13 * var(--u)) calc(14 * var(--u));
 }
 .wide { grid-column: 1 / -1; }
+/* Deals and Best sellers: every product card shares one height, buttons pinned to the bottom */
+.grid.even { align-items: stretch; }
+.grid.even .light { display: flex; flex-direction: column; min-height: calc(290 * var(--u)); }
+.grid.even .light > .btn:last-child { margin-top: auto; }
+.grid.even .light > .note { margin-bottom: calc(11 * var(--u)); }
+.grid.even .a9 .cap { margin-bottom: calc(13 * var(--u)); }
 .btn {
   display: flex; align-items: center; justify-content: center;
   width: 100%; height: calc(28 * var(--u));
@@ -747,6 +753,7 @@ svg { display: block; }
   /* filter pills */
   function applyFilter(f) {
     $$('.pill').forEach(function (p) { p.setAttribute('aria-pressed', p.dataset.f === f); });
+    $('#grid').classList.toggle('even', f !== 'you');
     $$('#grid > .card').forEach(function (c) {
       var show = c.dataset.tags.split(' ').indexOf(f) > -1;
       c.hidden = !show;
