@@ -96,7 +96,7 @@
   .site-header {
     position: relative; z-index: 31;
     /* Shares the hero's colour so the menu reads as part of the hero when a swatch changes it */
-    background: var(--hero-bg, var(--mist)); transition: background-color .8s cubic-bezier(.4,0,.2,1);
+    background: var(--hero-bg, var(--mist)); transition: background-color .5s cubic-bezier(.4,0,.2,1);
     padding-top: env(safe-area-inset-top);
   }
   /* The search row is sticky and see-through; it overlaps the hero top so page
@@ -160,22 +160,21 @@
   .suggestions li:hover, .suggestions li[aria-selected="true"] { background: var(--card); }
 
   /* ── Hero ───────────────────────────────────────────────── */
-  .hero { position: relative; padding-top: var(--search-h, 72px); background: var(--hero-bg, var(--mist)); overflow: hidden; transition: background-color .8s cubic-bezier(.4,0,.2,1); }
+  .hero { position: relative; padding-top: var(--search-h, 72px); background: var(--hero-bg, var(--mist)); overflow: hidden; transition: background-color .5s cubic-bezier(.4,0,.2,1); }
   .hero-inner { position: relative; }
   .hero-media {
     position: absolute; left: 50%; top: -122px; width: 104%; max-width: none;
     transform: translateX(-50%); pointer-events: none; user-select: none;
   }
   .hero-media img { width: 100%; height: auto; object-fit: contain; }
-  /* Incoming colour is layered over the current one and dissolves in slowly;
-     the current image stays fully visible underneath so there is no dip in the middle */
-  .hero-media img.hero-next {
-    position: absolute; inset: 0; opacity: 0; transform: scale(.992);
-    transition: opacity .8s cubic-bezier(.4,0,.2,1), transform .8s cubic-bezier(.4,0,.2,1);
-  }
+  /* Each colour is a preloaded layer; the chosen one fades in on top while the
+     current one stays visible underneath, so there is no dip in the middle */
+  .hero-layer { position: relative; opacity: 0; transition: opacity .5s cubic-bezier(.4,0,.2,1); }
+  .hero-layer:not(#heroImg) { position: absolute; inset: 0; }
+  .hero-layer.is-active { opacity: 1; }
   .hero-copy { position: relative; z-index: 1; padding-top: 20px; }
   .hero h1 {
-    font-size: 40px; line-height: 1.08; font-weight: 700;
+    font-size: 40px; line-height: 1.08; font-weight: 400;
     letter-spacing: -.025em; color: var(--navy);
   }
   .hero-spacer { height: 420px; }
@@ -515,15 +514,15 @@
   <nav class="categories" aria-label="Appliance categories">
     <div class="wrap" style="padding:0">
       <ul class="cat-row">
-        <li><a class="cat tap" href="#">
+        <li><a class="cat tap" href="https://jasongrant-elx.github.io/homepage-ecom-test/appliances/washing-machines/">
           <span class="cat-icon"><img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/washing-machine-nav-image.jpg" alt="" loading="lazy"></span>
           <span class="cat-label">Laundry</span>
         </a></li>
-        <li><a class="cat tap" href="#">
+        <li><a class="cat tap" href="https://jasongrant-elx.github.io/homepage-ecom-test/campaigns/kitchen/">
           <span class="cat-icon"><img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/kitchen-nav-image.jpg" alt="" loading="lazy"></span>
           <span class="cat-label">Kitchen</span>
         </a></li>
-        <li><a class="cat tap" href="#">
+        <li><a class="cat tap" href="https://jasongrant-elx.github.io/homepage-ecom-test/appliances/air-purifiers/">
           <span class="cat-icon"><img src="https://raw.githubusercontent.com/jasongrant-elx/homepage-ecom-test/main/media/air-nav-image.jpg" alt="" loading="lazy"></span>
           <span class="cat-label">Air</span>
         </a></li>
@@ -827,41 +826,46 @@
   // Each swatch can carry its own hero image (data-hero); swatches without one keep the default
   var heroImg = document.getElementById('heroImg');
   var heroDefault = { src: heroImg.getAttribute('src'), alt: heroImg.alt };
-  swatches.forEach(function (x) { if (x.dataset.hero) new Image().src = x.dataset.hero; });
   var heroSection = heroImg.closest('.hero');
+  // One stacked, pre-decoded layer per colour, so a tap only changes opacity
+  // (no download or decode at click time)
+  var heroLayers = {};
+  heroLayers[heroDefault.src] = heroImg;
+  heroImg.classList.add('hero-layer', 'is-active');
+  swatches.forEach(function (x) {
+    var src = x.dataset.hero;
+    if (!src || heroLayers[src]) return;
+    var img = new Image();
+    img.className = 'hero-layer';
+    img.alt = '';
+    img.decoding = 'async';
+    img.src = src;
+    if (img.decode) img.decode().catch(function () {});
+    heroImg.parentNode.appendChild(img);
+    heroLayers[src] = img;
+  });
+  var heroTop = 1, heroTimer = null;
   function swapHero(s) {
     var src = s.dataset.hero || heroDefault.src;
-    var alt = s.dataset.heroAlt || heroDefault.alt;
-    // Swatches without data-hero-bg fall back to the default --mist from CSS
-    document.querySelector('.app').style.setProperty('--hero-bg', s.dataset.heroBg || '');
-    if (!s.dataset.heroBg) document.querySelector('.app').style.removeProperty('--hero-bg');
-    if (heroImg.getAttribute('src') === src) return;
-    // Crossfade: fade the new image in on top while the current one fades out,
-    // so the hero is never empty mid-switch
-    var prev = heroImg.parentNode.querySelector('.hero-next');
-    if (prev) prev.remove();
-    var next = new Image();
-    next.className = 'hero-next';
-    next.alt = '';
-    next.src = src;
-    heroImg.parentNode.appendChild(next);
-    var ready = next.decode ? next.decode() : Promise.resolve();
-    ready.catch(function () {}).then(function () {
-      if (!next.isConnected) return;
-      requestAnimationFrame(function () {
-        next.style.opacity = '1';
-        next.style.transform = 'none';
-      });
-      setTimeout(function () {
-        if (!next.isConnected) return;
-        heroImg.src = src;
-        heroImg.alt = alt;
-        var settle = heroImg.decode ? heroImg.decode() : Promise.resolve();
-        settle.catch(function () {}).then(function () {
-          next.remove();
-        });
-      }, 820);
+    var app = document.querySelector('.app');
+    if (s.dataset.heroBg) app.style.setProperty('--hero-bg', s.dataset.heroBg);
+    else app.style.removeProperty('--hero-bg');
+    var next = heroLayers[src];
+    if (!next || next.classList.contains('is-active') && next.style.zIndex == heroTop) return;
+    // Bring the chosen colour to the top and fade it in over the current one
+    next.style.zIndex = ++heroTop;
+    next.classList.remove('is-active');
+    void next.offsetWidth;
+    next.classList.add('is-active');
+    Object.keys(heroLayers).forEach(function (k) {
+      heroLayers[k].alt = heroLayers[k] === next ? (s.dataset.heroAlt || heroDefault.alt) : '';
     });
+    clearTimeout(heroTimer);
+    heroTimer = setTimeout(function () {
+      Object.keys(heroLayers).forEach(function (k) {
+        if (heroLayers[k] !== next) heroLayers[k].classList.remove('is-active');
+      });
+    }, 520);
   }
   swatchGroup.addEventListener('click', function (e) {
     var s = e.target.closest('.swatch');
