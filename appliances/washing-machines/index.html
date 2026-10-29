@@ -143,7 +143,7 @@ img { display: block; max-width: 100%; }
 .pill:active { transform: scale(.97); }
 
 /* ---------- toolbar ---------- */
-.bar { display: flex; align-items: center; gap: 6px; margin-top: 28px; }
+.bar { display: flex; align-items: center; gap: 6px; margin-top: 40px; }
 .count { font-size: 12px; flex: 1; font-variant-numeric: tabular-nums; }
 .sort-lbl { font-size: 12px; }
 .sort { position: relative; }
@@ -319,11 +319,11 @@ img { display: block; max-width: 100%; }
   overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
   padding: 16px 15px 17px; scroll-padding-inline: 15px;
   overscroll-behavior-x: contain;
-  clip-path: inset(-30px 14px);
+  justify-content: center;
 }
 .s-track::-webkit-scrollbar { display: none; }
 .s-card {
-  position: relative; flex: 0 0 105px; min-width: 0;
+  position: relative; flex: 1 1 0; min-width: 0;
   display: flex; flex-direction: column;
   padding: 0 0 20px;
   background: linear-gradient(90deg, #eeece9, #f3f1ee 22%, #f4f2ef 70%, #f6f4f1);
@@ -345,7 +345,7 @@ img { display: block; max-width: 100%; }
   visibility: hidden;
 }
 .s-card[aria-current="true"] .s-head { visibility: visible; background: var(--navy); }
-.s-img { margin: 12px 0 0 5.5px; width: 93px; height: 132.5px; object-fit: cover; mix-blend-mode: multiply; }
+.s-img { margin: 12px auto 0; width: 93px; height: 132.5px; object-fit: cover; mix-blend-mode: multiply; }
 .s-logo {
   margin: 14px 0 0 9px; width: 68px; height: 16px;
   background: var(--navy);
@@ -363,6 +363,32 @@ img { display: block; max-width: 100%; }
   -webkit-mask: var(--icon) center / contain no-repeat;
   mask: var(--icon) center / contain no-repeat;
 }
+
+/* ---------- first row: product beside service cards ---------- */
+.side { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.svc {
+  position: relative; display: flex; flex-direction: column; align-items: flex-start; text-align: left;
+  padding: 15px 15.5px 14px;
+  background: linear-gradient(90deg, #e7e3de, #ebe7e1 45%, #f0ece7);
+  border: 1px solid var(--white); border-radius: var(--r-card);
+  box-shadow: 0 2px 6px rgba(80, 60, 40, .04);
+}
+.svc-ic { width: 32px; height: 32px; border-radius: 4px; background: var(--blue-soft); display: grid; place-items: center; }
+.svc-ic svg { width: 22px; height: 22px; }
+.svc-plus { position: absolute; top: 15.5px; right: 15px; width: 32px; height: 32px; border-radius: 50%; background: var(--plus); display: grid; place-items: center; transition: transform .25s; }
+.svc-plus svg { width: 14px; height: 14px; }
+.svc-deliv.open .svc-plus { transform: rotate(45deg); }
+.svc-t { margin-top: 10.5px; font-size: 14px; line-height: 18px; color: var(--navy); }
+.svc-l { margin-top: 3.5px; font-size: 12px; line-height: 16px; color: var(--blue); }
+.svc:hover .svc-l { text-decoration: underline; }
+.svc .klarna-logo { width: 72px; height: 32px; border-radius: 4px; font-size: 17.25px; }
+.svc-k { padding-top: 14px; }
+.svc-k .svc-t { margin-top: 8px; }
+.svc-k .svc-l { margin-top: 4px; }
+.svc-w { padding-top: 13.5px; padding-bottom: 14.5px; }
+.svc-w .svc-t { margin-top: 9.5px; }
+.svc-w .svc-l { margin-top: 5.5px; }
+.grid.list .side { display: grid; grid-template-columns: minmax(0, 1fr); }
 
 .empty-state { padding: 40px 16px; text-align: center; color: var(--ink-2); }
 .empty-state button { margin-top: 12px; color: var(--blue); text-decoration: underline; }
@@ -637,7 +663,7 @@ const COLORS = { silver: { label: "Silver", c: "radial-gradient(circle at 50% 30
 // Catalogue. The first four mirror the screenshot exactly.
 const UW = { name: "UltraWash", rating: 4, reviews: 4, was: 10100, price: 8100, save: 3043, top: "#1 Best seller", sale: 1, quick: 1, autodose: 1, energy: 1, large: 1, steam: 0, kg: 10, rpm: 1400, eclass: "A", series: "800 Series" };
 const P = [
-  { ...UW, tags: ["Large Household", "AutoDose"], colors: ["black", "silver"], color0: "black", pop: 100, added: 3 },
+  { ...UW, tags: ["AutoDose", "Large Household"], colors: ["black", "silver"], color0: "black", pop: 100, added: 3 },
   { ...UW, tags: ["AutoDose", "Energy saver"], colors: ["silver", "black"], color0: "silver", pop: 99, added: 3 },
   { ...UW, tags: ["4 people", "Energy saver", "Good capacity"], colors: ["black", "silver"], color0: "black", pop: 98, added: 3, kg: 9, large: 0 },
   { ...UW, tags: ["4 people", "Energy saver", "Good capacity"], colors: ["silver", "black"], color0: "silver", pop: 97, added: 3, kg: 9, large: 0 },
@@ -737,11 +763,27 @@ function seriesHTML() {
     </button>`).join("")}</div></section>`;
 }
 
+const TRUCK = '<svg viewBox="0 0 24 24" fill="none" stroke="#0a2354" stroke-width="1.5" stroke-linejoin="round"><path d="M2.5 6.5h11v10h-11z"/><path d="M13.5 9.5h4l3 3.5v3.5h-7"/><circle cx="6.5" cy="17" r="1.8" fill="#e9f6ff"/><circle cx="17" cy="17" r="1.8" fill="#e9f6ff"/></svg>';
+const SIDE = `<div class="side">
+  <button class="svc svc-deliv" data-act="deliv" aria-label="Express delivery details">
+    <span class="svc-ic">${TRUCK}</span>
+    <span class="svc-plus"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M8 1.5v13M1.5 8h13"/></svg></span>
+    <span class="svc-t">Buy today and get<br>express delivery</span>
+    <span class="svc-l" data-eta>Estimate delivered date:<br>10th Oct</span>
+  </button>
+  <button class="svc svc-k" data-act="klarna">
+    <span class="klarna-logo">Klarna</span>
+    <span class="svc-t">0% installment for<br>6 months on all order</span>
+    <span class="svc-l">Find out more</span>
+  </button>
+  <button class="svc svc-w" data-act="warranty">
+    <span class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#1a3824" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M12 2.8 4.5 5.6v5.6c0 4.6 3.2 8.4 7.5 10 4.3-1.6 7.5-5.4 7.5-10V5.6Z"/><path d="m8.6 12 2.4 2.4 4.4-4.6"/></svg></span>
+    <span class="svc-t">5 year warranty</span>
+    <span class="svc-l">Read more here</span>
+  </button>
+</div>`;
+
 const PROMO = `<div class="span promo-pair">
-  <div class="klarna">
-    <div class="klarna-logo">Klarna</div>
-    <div><p>0% installment for 6 months</p><a href="#" data-act="klarna">Find out more</a></div>
-  </div>
   <div class="story">
     <span class="pop">The Swedish Way</span>
     <div class="copy"><h2>Wash Life Balance</h2><a href="#" data-act="story">${ICON.arrow}Discover more</a></div>
@@ -758,14 +800,9 @@ function render() {
     grid.innerHTML = `<div class="span empty-state">No washing machines match all of these filters.<br><button data-act="reset">Clear filters</button></div>`;
     return;
   }
-  const n = cols();
-  let html = "";
-  // Only two products follow the series comparison.
-  items.slice(0, n + 2).forEach((p, i) => {
-    if (i === n) html += PROMO + seriesHTML();
-    html += cardHTML(p);
-  });
-  if (items.length <= n) html += PROMO + seriesHTML();
+  // First row: one product beside the service cards; two more products follow the series comparison.
+  let html = cardHTML(items[0]) + SIDE + PROMO + seriesHTML();
+  items.slice(1, 3).forEach(p => { html += cardHTML(p); });
   grid.innerHTML = html;
   const tr = $("#sTrack");
   if (tr) {
@@ -825,6 +862,8 @@ grid.addEventListener("click", e => {
     if (act.dataset.act === "reset") { S.filters.clear(); document.querySelectorAll(".pill").forEach(p => p.setAttribute("aria-pressed", "false")); render(); }
     if (act.dataset.act === "klarna") openSheet("klarna");
     if (act.dataset.act === "story") openSheet("story");
+    if (act.dataset.act === "warranty") openSheet("warranty");
+    if (act.dataset.act === "deliv") $("#delivBtn").click();
     return;
   }
   const sc = e.target.closest(".s-card");
@@ -876,6 +915,7 @@ const deliv = $("#deliv");
 $("#delivBtn").addEventListener("click", () => {
   const open = !deliv.classList.contains("open");
   deliv.classList.toggle("open", open); $("#delivBtn").setAttribute("aria-expanded", open);
+  document.querySelectorAll(".svc-deliv").forEach(x => x.classList.toggle("open", open));
 });
 $("#zipForm").addEventListener("submit", e => {
   e.preventDefault();
@@ -883,6 +923,7 @@ $("#zipForm").addEventListener("submit", e => {
   if (!/^\d{5}$/.test(z)) { toast("Enter a 5-digit postcode"); return; }
   const day = z.startsWith("10") ? "9th Oct" : "11th Oct";
   $("#eta").textContent = `Estimate delivered date: ${day} · ${z}`;
+  document.querySelectorAll("[data-eta]").forEach(x => { x.innerHTML = `Estimate delivered date:<br>${day} · ${z}`; });
   toast(`Delivery to ${z} by ${day}`);
 });
 
@@ -956,6 +997,8 @@ function paintSheet() {
     body.innerHTML = `<h3 id="sheetTitle">Shop</h3><ul class="nav">${["Washing machines", "Dryers", "Washer dryers", "Air purifiers", "Vacuum cleaners", "Refrigerators", "Accessories", "Support"].map((x, i) => `<li><a href="#" class="${i ? "" : "cur"}" data-s="nav">${x}<span>›</span></a></li>`).join("")}</ul>`;
   } else if (kind === "klarna") {
     body.innerHTML = `<h3 id="sheetTitle">Pay in 6 with Klarna</h3><p class="sub">Split any order over B 3000 into 6 monthly payments with 0% interest. For the UltraWash at B 8100, that is B 1350 a month.</p><button class="btn pri" data-s="close">Got it</button>`;
+  } else if (kind === "warranty") {
+    body.innerHTML = `<h3 id="sheetTitle">5 year warranty</h3><p class="sub">Every Electrolux washing machine comes with 5 years of cover on parts and labour, plus 10 years on the inverter motor. Register your machine within 30 days of delivery to activate it.</p><button class="btn pri" data-s="close">Got it</button>`;
   } else if (kind === "story") {
     body.innerHTML = `<h3 id="sheetTitle">Wash Life Balance</h3><p class="sub">The Swedish Way: shorter, cooler cycles that care for your clothes and free up your evenings. UltraWash finishes a full load in 59 minutes and doses detergent for you.</p><button class="btn pri" data-s="close">Keep shopping</button>`;
   } else if (kind === "compare") {
